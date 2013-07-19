@@ -14,9 +14,6 @@
     "autoload": {
         "psr-0": {
             "ZFApiFirst\\": "src/"
-        },
-        "classmap": [
-            "./"
-        ]
+        }
     }
 }
