@@ -11,7 +11,10 @@
         "php": ">=5.3.3",
         "zendframework/zendframework": ">2.2.0rc1",
         "zfcampus/zf-rpc": "dev-master",
-        "zfcampus/zf-content-negotiation": "dev-master"
+        "zfcampus/zf-content-negotiation": "dev-master",
+        "zfcampus/zf-rest": "dev-master",
+        "zfcampus/zf-api-problem": "dev-master",
+        "zfcampus/zf-hal": "dev-master"
     },
     "autoload": {
         "psr-0": {
