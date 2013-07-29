@@ -1,5 +1,5 @@
 {
-    "name": "zfcampus/zfapifirst",
+    "name": "zfcampus/zf-api-first",
     "description": "ZFApiFirst module for ZF2",
     "license": "BSD-3-Clause",
     "keywords": [
@@ -9,7 +9,9 @@
     "homepage": "http://framework.zend.com/",
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": ">2.2.0rc1"
+        "zendframework/zendframework": ">2.2.0rc1",
+        "zfcampus/zf-rpc": "dev-master",
+        "zfcampus/zf-content-negotation": "dev-master"
     },
     "autoload": {
         "psr-0": {
