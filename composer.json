@@ -12,15 +12,17 @@
         { "type": "composer", "url": "https://packages.zendframework.com/" },
         { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfapiproblem.git" },
         { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfcontentnegotiation.git" },
+        { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfversioning.git" },
         { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfhal.git" },
         { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfrest.git" },
         { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfrpc.git" }
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": ">2.2.0rc1",
+        "zendframework/zendframework": ">=2.3.0dev",
         "zfcampus/zf-rpc": "dev-master",
         "zfcampus/zf-content-negotiation": "dev-master",
+        "zfcampus/zf-versioning": "dev-master",
         "zfcampus/zf-rest": "dev-master",
         "zfcampus/zf-api-problem": "dev-master",
         "zfcampus/zf-hal": "dev-master"
