@@ -10,12 +10,7 @@
     "minimum-stability": "dev",
     "repositories": [
         { "type": "composer", "url": "https://packages.zendframework.com/" },
-        { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfapiproblem.git" },
-        { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfcontentnegotiation.git" },
-        { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfversioning.git" },
-        { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfhal.git" },
-        { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfrest.git" },
-        { "type": "vcs", "url": "git@bitbucket.org:zendframework/zfrpc.git" }
+        { "type": "composer", "url": "http://packages-zfcampus.rhcloud.com/" }
     ],
     "require": {
         "php": ">=5.3.3",
