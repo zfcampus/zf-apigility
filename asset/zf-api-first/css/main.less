@@ -1,0 +1,110 @@
+// @import 'bower_components/bootstrap/less/bootstrap.less';
+
+@zfa1Blue: #0c0c56;
+@zfa1LightBlue: #4B70A2;
+@zfa1Green: #004000;
+
+body {
+    padding-top: 50px;
+}
+
+
+.zfa1-home {
+    background: @zfa1Blue;
+    color: #fff;
+}
+
+a.navbar-brand {
+    padding: 0px;
+}
+
+
+.zfa1-nav {
+    background: @zfa1Blue;
+    border-color: rgb(70, 50, 101);
+    
+    .navbar-nav > li > a {
+      color: #B7D9FF;
+    }
+
+    .navbar-nav > li.zfa1-nav-dashboard a {
+        color: #fff;
+    }
+
+
+}
+
+.zfa1-navbar-collapse {
+    font-size: 1.1em;
+}
+
+.zfa1-navbar-collapse button {
+    margin-top: 5px;
+}
+
+.zfa1-masthead {
+    padding: 130px 15px;
+    h1 {
+        font-size: 100px;
+    }
+    // p.zfa-masthead-buttons {
+        text-align: center;
+    // }
+    p.lead {
+        color: @zfa1LightBlue;
+    }
+}
+
+
+.btn-outline {
+    color: rgb(255, 255, 255);
+    background-color: transparent;
+    border-color: rgb(205, 191, 227);
+    &:hover, &:focus, &:active {
+        color: #563d7c;
+        background-color: #fff;
+        border-color: #fff;
+    }
+}
+
+
+.zfa1-header {
+    font-size: 21px;
+    text-align: left;
+    padding: 30px 30px 40px;
+    h1 {
+        color: @zfa1Green;
+        font-size: 60px;
+    }
+    border-bottom: 1px solid rgb(229, 229, 229);
+}
+
+.zfa1-sidebar {
+    display: block;
+}
+
+.zfa1-sidenav {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-shadow: 0px 1px 0px rgb(255, 255, 255);
+    background-color: rgb(247, 245, 250);
+    border-radius: 5px 5px 5px 5px;
+}
+
+.zfa1-sidebar .nav  {
+    li > a {
+        display: block;
+        color: rgb(113, 107, 122);
+        padding: 5px 20px;
+    }
+    .active > a,
+    .active:hover > a
+    .active:focus > a {
+        font-weight: bold;
+        color: rgb(86, 61, 124);
+        background-color: transparent;
+        border-right: 1px solid rgb(86, 61, 124);
+    }
+}

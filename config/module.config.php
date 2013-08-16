@@ -1,5 +1,12 @@
 <?php
 return array(
+    'asset_manager' => array(
+        'resolver_configs' => array(
+            'paths' => array(
+                __DIR__ . '/../asset',
+            ),
+        ),
+    ),
     /*
     'view_manager' => array(
         'display_not_found_reason' => true,
