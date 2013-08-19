@@ -49,12 +49,22 @@ a.navbar-brand {
 .zfa1-header {
   font-size: 21px;
   text-align: left;
-  padding: 30px 30px 40px;
+  padding: 10px 30px 40px;
   border-bottom: 1px solid #e5e5e5;
 }
 .zfa1-header h1 {
   color: #004000;
   font-size: 60px;
+}
+.zf1a-module-navigation {
+  border-bottom: 1px solid #ccc;
+  font-size: 16px;
+}
+.zf1a-module-navigation span {
+  padding: 5px 10px;
+}
+.zf1a-module-navigation .zfa1-nav-pills li > a {
+  padding: 5px 10px;
 }
 .zfa1-sidebar {
   display: block;
