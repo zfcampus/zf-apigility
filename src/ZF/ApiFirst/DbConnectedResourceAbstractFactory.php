@@ -24,7 +24,7 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
         $config = $config['zf-api-first']['db-connected'];
         if (!isset($config[$requestedName])
             || !is_array($config[$requestedName])
-            || !$this->isValidConfig($requestedName, $services)
+            || !$this->isValidConfig($config, $requestedName, $services)
         ) {
             return false;
         }
@@ -34,9 +34,9 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
 
     public function createServiceWithName(ServiceLocatorInterface $services, $name, $requestedName)
     {
-        $table         = $services->get($requestedName . '\Table');
         $config        = $services->get('Config');
         $config        = $config['zf-api-first']['db-connected'][$requestedName];
+        $table         = $this->getTableGatewayFromConfig($config, $requestedName, $services);
         $identifier    = $this->getIdentifierFromConfig($config);
         $collection    = $this->getCollectionFromConfig($config, $requestedName);
         $resourceClass = $this->getResourceClassFromConfig($config, $requestedName);
@@ -44,20 +44,52 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
         return new $resourceClass($table, $identifier, $collection);
     }
 
-    protected function isValidConfig($requestedName, ServiceLocatorInterface $services)
+    /**
+     * Tests if the configuration is valid
+     *
+     * If the configuration has a "table_service" key, and that service exists,
+     * then the configuration is valid.
+     *
+     * Otherwise, it checks if the service $requestedName\Table exists.
+     * 
+     * @param  array $config 
+     * @param  string $requestedName 
+     * @param  ServiceLocatorInterface $services 
+     * @return bool
+     */
+    protected function isValidConfig(array $config, $requestedName, ServiceLocatorInterface $services)
     {
+        if (isset($config['table_service'])) {
+            return $services->has($config['table_service']);
+        }
+
         $tableGatewayService = $requestedName . '\Table';
         if (!$services->has($tableGatewayService)) {
             return false;
         }
     }
 
+    protected function getTableGatewayFromConfig(array $config, $requestedName, ServiceLocatorInterface $services)
+    {
+        if (isset($config['table_service'])) {
+            return $services->get($config['table_service']);
+        }
+
+        $tableGatewayService = $requestedName . '\Table';
+        return $services->get($tableGatewayService);
+    }
+
     protected function getIdentifierFromConfig(array $config)
     {
-        $identifier = isset($config['identifier_name']) 
-            ? $config['identifier_name'] 
-            : $config['table_name'] . '_id';
-        return $identifier;
+        if (isset($config['identifier_name'])) {
+            return $config['identifier_name'];
+        }
+
+        if (isset($config['table_name'])) {
+            return $config['table_name'] . '_id';
+        }
+
+        return 'id';
     }
 
     protected function getCollectionFromConfig(array $config, $requestedName)
