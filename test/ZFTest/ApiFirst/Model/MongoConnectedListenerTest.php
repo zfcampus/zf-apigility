@@ -10,9 +10,9 @@ use ZF\ApiFirst\Model\MongoConnectedListener;
 
 class MongoConnectedListenerTest extends TestCase
 {
-    static protected $mongoDb;
+    protected static $mongoDb;
 
-    static protected $lastId;
+    protected static $lastId;
 
     public function setUp()
     {
@@ -24,14 +24,14 @@ class MongoConnectedListenerTest extends TestCase
             );
         }
 
-        $m  = new \MongoClient(); 
+        $m  = new \MongoClient();
         static::$mongoDb = $m->selectDB("test_zf_apifirst_mongoconnected");
         $collection = new \MongoCollection(static::$mongoDb, 'test');
 
         $this->mongoListener = new MongoConnectedListener($collection);
     }
 
-    static public function tearDownAfterClass()
+    public static function tearDownAfterClass()
     {
         if (static::$mongoDb instanceof MongoDB) {
             static::$mongoDb->drop();
@@ -66,7 +66,7 @@ class MongoConnectedListenerTest extends TestCase
         }
         $result = $this->mongoListener->fetch(static::$lastId);
         $this->assertTrue(!empty($result));
-        $this->assertEquals(static::$lastId, $result['_id']); 
+        $this->assertEquals(static::$lastId, $result['_id']);
     }
 
     public function testFetchAll()
@@ -95,5 +95,5 @@ class MongoConnectedListenerTest extends TestCase
         $result = $this->mongoListener->delete(self::$lastId);
         $this->assertTrue($result);
     }
-    
+
 }

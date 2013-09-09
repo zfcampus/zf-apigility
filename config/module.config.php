@@ -17,7 +17,7 @@ return array(
         'db-connected' => array(
         /**
          * This is sample configuration for a DB-connected service.
-         * Each such service requires an adapter, a hydrator, an entity, and a 
+         * Each such service requires an adapter, a hydrator, an entity, and a
          * collection.
          *
          * The TableGateway will be called "YourDBConnectedResource\Table" should

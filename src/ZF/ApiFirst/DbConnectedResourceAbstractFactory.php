@@ -51,10 +51,10 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
      * then the configuration is valid.
      *
      * Otherwise, it checks if the service $requestedName\Table exists.
-     * 
-     * @param  array $config 
-     * @param  string $requestedName 
-     * @param  ServiceLocatorInterface $services 
+     *
+     * @param  array $config
+     * @param  string $requestedName
+     * @param  ServiceLocatorInterface $services
      * @return bool
      */
     protected function isValidConfig(array $config, $requestedName, ServiceLocatorInterface $services)
