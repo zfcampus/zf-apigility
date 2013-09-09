@@ -10,7 +10,7 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
 {
     public function canCreateServiceWithName(ServiceLocatorInterface $services, $name, $requestedName)
     {
-        if ($services->has('Config')) {
+        if (!$services->has('Config')) {
             return false;
         }
 
@@ -24,7 +24,7 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
         $config = $config['zf-api-first']['db-connected'];
         if (!isset($config[$requestedName])
             || !is_array($config[$requestedName])
-            || !$this->isValidConfig($config, $requestedName, $services)
+            || !$this->isValidConfig($config[$requestedName], $requestedName, $services)
         ) {
             return false;
         }
@@ -64,9 +64,7 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
         }
 
         $tableGatewayService = $requestedName . '\Table';
-        if (!$services->has($tableGatewayService)) {
-            return false;
-        }
+        return $services->has($tableGatewayService);
     }
 
     protected function getTableGatewayFromConfig(array $config, $requestedName, ServiceLocatorInterface $services)
@@ -109,8 +107,11 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
     {
         $defaultClass  = __NAMESPACE__ . '\DbConnectedResource';
         $resourceClass = isset($config['resource_class']) ? $config['resource_class'] : $defaultClass;
-        if (!class_exists($resourceClass)
-            || !is_subclass_of($resourceClass, $defaultClass)
+        if ($resourceClass !== $defaultClass
+            && (
+                !class_exists($resourceClass)
+                || !is_subclass_of($resourceClass, $defaultClass)
+            )
         ) {
             throw new ServiceNotCreatedException(sprintf(
                 'Unable to create instance for service "%s"; resource class "%s" cannot be found or does not extend %s',
