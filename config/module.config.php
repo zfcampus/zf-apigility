@@ -7,6 +7,12 @@ return array(
             ),
         ),
     ),
+    'service_manager' => array(
+        'abstract_factories' => array(
+            'ZF\ApiFirst\DbConnectedResourceAbstractFactory',
+            'ZF\ApiFirst\TableGatewayAbstractFactory',
+        ),
+    ),
     'zf-api-first' => array(
         'db-connected' => array(
         /**
