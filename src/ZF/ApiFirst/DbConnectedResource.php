@@ -14,11 +14,11 @@ class DbConnectedResource extends AbstractResourceListener
 
     protected $table;
 
-    public function __construct(TableGateway $table, $collectionClass, $identifierName)
+    public function __construct(TableGateway $table, $identifierName, $collectionClass)
     {
         $this->table           = $table;
-        $this->collectionClass = $collectionClass;
         $this->identifierName  = $identifierName;
+        $this->collectionClass = $collectionClass;
     }
 
     public function create($data)

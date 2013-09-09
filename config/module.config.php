@@ -26,6 +26,7 @@ return array(
                 'table_service'    => 'Optional; if present, this service will be used as the table gateway',
                 'resource_class'   => 'Optional; if present, this class will be used as the db-connected resource',
                 'table_name'       => 'Name of DB table to use',
+                'identifier_name'  => 'Optional; identifier field in table; defaults to table_name_id or id',
                 'adapter_name'     => 'Service Name for DB adapter to use',
                 'hydrator_name'    => 'Service Name for Hydrator to use',
                 'entity_class'     => 'Name of entity class to which to hydrate',
