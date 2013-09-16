@@ -1,37 +1,37 @@
 body {
   padding-top: 50px;
 }
-.zfa1-home {
+.ag-home {
   background: #0c0c56;
   color: #fff;
 }
 a.navbar-brand {
   padding: 0px;
 }
-.zfa1-nav {
+.ag-nav {
   background: #0c0c56;
   border-color: #463265;
 }
-.zfa1-nav .navbar-nav > li > a {
+.ag-nav .navbar-nav > li > a {
   color: #B7D9FF;
 }
-.zfa1-nav .navbar-nav > li.zfa1-nav-dashboard a {
+.ag-nav .navbar-nav > li.ag-nav-dashboard a {
   color: #fff;
 }
-.zfa1-navbar-collapse {
+.ag-navbar-collapse {
   font-size: 1.1em;
 }
-.zfa1-navbar-collapse button {
+.ag-navbar-collapse button {
   margin-top: 5px;
 }
-.zfa1-masthead {
+.ag-masthead {
   padding: 130px 15px;
   text-align: center;
 }
-.zfa1-masthead h1 {
+.ag-masthead h1 {
   font-size: 100px;
 }
-.zfa1-masthead p.lead {
+.ag-masthead p.lead {
   color: #4b70a2;
 }
 .btn-outline {
@@ -46,30 +46,30 @@ a.navbar-brand {
   background-color: #fff;
   border-color: #fff;
 }
-.zfa1-header {
+.ag-header {
   font-size: 21px;
   text-align: left;
   padding: 10px 30px 40px;
   border-bottom: 1px solid #e5e5e5;
 }
-.zfa1-header h1 {
+.ag-header h1 {
   color: #004000;
   font-size: 60px;
 }
-.zf1a-module-navigation {
+.ag-module-navigation {
   border-bottom: 1px solid #ccc;
   font-size: 16px;
 }
-.zf1a-module-navigation span {
+.ag-module-navigation span {
   padding: 5px 10px;
 }
-.zf1a-module-navigation .zfa1-nav-pills li > a {
+.ag-module-navigation .ag-nav-pills li > a {
   padding: 5px 10px;
 }
-.zfa1-sidebar {
+.ag-sidebar {
   display: block;
 }
-.zfa1-sidenav {
+.ag-sidenav {
   margin-top: 30px;
   margin-bottom: 30px;
   padding-top: 10px;
@@ -78,13 +78,13 @@ a.navbar-brand {
   background-color: #f7f5fa;
   border-radius: 5px 5px 5px 5px;
 }
-.zfa1-sidebar .nav li > a {
+.ag-sidebar .nav li > a {
   display: block;
   color: #716b7a;
   padding: 5px 20px;
 }
-.zfa1-sidebar .nav .active > a,
-.zfa1-sidebar .nav .active:hover > a .active:focus > a {
+.ag-sidebar .nav .active > a,
+.ag-sidebar .nav .active:hover > a .active:focus > a {
   font-weight: bold;
   color: #563d7c;
   background-color: transparent;
