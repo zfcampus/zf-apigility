@@ -22,9 +22,13 @@
         "zfcampus/zf-api-problem": "dev-master",
         "zfcampus/zf-hal": "dev-master"
     },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
     "autoload": {
         "psr-0": {
-            "ZF\\ApiFirst\\": "src/"
+            "ZF\\ApiFirst\\": "src/",
+            "ZFTest\\": "test/"
         }
     }
 }

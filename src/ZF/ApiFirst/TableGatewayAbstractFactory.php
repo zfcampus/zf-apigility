@@ -43,14 +43,22 @@ class TableGatewayAbstractFactory implements AbstractFactoryInterface
 
     public function createServiceWithName(ServiceLocatorInterface $services, $name, $requestedName)
     {
-        $gatewayName = substr($requestedName, 0, strlen($requestedName) - 6);
-        $config      = $services->get('Config');
-        $config      = $config['zf-api-first']['db-connected'][$gatewayName];
+        $gatewayName       = substr($requestedName, 0, strlen($requestedName) - 6);
+        $config            = $services->get('Config');
+        $dbConnectedConfig = $config['zf-api-first']['db-connected'][$gatewayName];
 
-        $table      = $config['table_name'];
-        $adapter    = $this->getAdapterFromConfig($config, $services);
-        $hydrator   = $this->getHydratorFromConfig($config, $services);
-        $entity     = $this->getEntityFromConfig($config, $requestedName);
+        $restConfig = array();
+        if (isset($config['zf-rest'])
+            && isset($dbConnectedConfig['controller_service_name'])
+            && isset($config['zf-rest'][$dbConnectedConfig['controller_service_name']])
+        ) {
+            $restConfig = $config['zf-rest'][$dbConnectedConfig['controller_service_name']];
+        }
+
+        $table      = $dbConnectedConfig['table_name'];
+        $adapter    = $this->getAdapterFromConfig($dbConnectedConfig, $services);
+        $hydrator   = $this->getHydratorFromConfig($dbConnectedConfig, $services);
+        $entity     = $this->getEntityFromConfig($restConfig, $requestedName);
 
         $resultSetPrototype = new HydratingResultSet($hydrator, new $entity());
         return new TableGateway($table, $adapter, null, $resultSetPrototype);

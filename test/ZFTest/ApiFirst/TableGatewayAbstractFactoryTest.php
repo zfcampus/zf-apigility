@@ -113,13 +113,22 @@ class TableGatewayAbstractFactoryTest extends TestCase
 
         $this->services->set($adapterServiceName, $adapter);
 
-        $config = array('zf-api-first' => array('db-connected' => array(
-            'Foo' => array(
-                'table_name'    => 'foo',
-                'hydrator_name' => 'ClassMethods',
-                'entity_class'  => 'ZFTest\ApiFirst\TestAsset\Foo',
+        $config = array(
+            'zf-api-first' => array(
+                'db-connected' => array(
+                    'Foo' => array(
+                        'controller_service_name' => 'Foo\Controller',
+                        'table_name'              => 'foo',
+                        'hydrator_name'           => 'ClassMethods',
+                    ),
+                ),
             ),
-        )));
+            'zf-rest' => array(
+                'Foo\Controller' => array(
+                    'entity_class' => 'ZFTest\ApiFirst\TestAsset\Foo',
+                ),
+            ),
+        );
         if ($adapterServiceName !== 'Zend\Db\Adapter\Adapter') {
             $config['zf-api-first']['db-connected']['Foo']['adapter_name'] = $adapterServiceName;
         }
