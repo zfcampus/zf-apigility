@@ -1,12 +1,12 @@
 <?php
 
-namespace ZFTest\ApiFirst\Model;
+namespace ZFTest\Apigility\Model;
 
 use MongoClient;
 use MongoCollection;
 use MongoDB;
 use PHPUnit_Framework_TestCase as TestCase;
-use ZF\ApiFirst\Model\MongoConnectedListener;
+use ZF\Apigility\Model\MongoConnectedListener;
 
 class MongoConnectedListenerTest extends TestCase
 {
@@ -25,7 +25,7 @@ class MongoConnectedListenerTest extends TestCase
         }
 
         $m  = new \MongoClient();
-        static::$mongoDb = $m->selectDB("test_zf_apifirst_mongoconnected");
+        static::$mongoDb = $m->selectDB("test_zf_apigility_mongoconnected");
         $collection = new \MongoCollection(static::$mongoDb, 'test');
 
         $this->mongoListener = new MongoConnectedListener($collection);

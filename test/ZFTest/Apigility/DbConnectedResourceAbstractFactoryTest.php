@@ -1,10 +1,10 @@
 <?php
 
-namespace ZFTest\ApiFirst;
+namespace ZFTest\Apigility;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use stdClass;
-use ZF\ApiFirst\DbConnectedResourceAbstractFactory;
+use ZF\Apigility\DbConnectedResourceAbstractFactory;
 
 class DbConnectedResourceAbstractFactoryTest extends TestCase
 {
@@ -19,27 +19,27 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
     }
 
-    public function testWillNotCreateServiceIfApiFirstConfigMissing()
+    public function testWillNotCreateServiceIfApigilityConfigMissing()
     {
         $this->services->set('Config', array());
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
     }
 
-    public function testWillNotCreateServiceIfApiFirstConfigIsNotAnArray()
+    public function testWillNotCreateServiceIfApigilityConfigIsNotAnArray()
     {
-        $this->services->set('Config', array('zf-api-first' => 'invalid'));
+        $this->services->set('Config', array('zf-apigility' => 'invalid'));
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
     }
 
-    public function testWillNotCreateServiceIfApiFirstConfigDoesNotHaveDbConnectedSegment()
+    public function testWillNotCreateServiceIfApigilityConfigDoesNotHaveDbConnectedSegment()
     {
-        $this->services->set('Config', array('zf-api-first' => array('foo' => 'bar')));
+        $this->services->set('Config', array('zf-apigility' => array('foo' => 'bar')));
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
     }
 
     public function testWillNotCreateServiceIfDbConnectedSegmentDoesNotHaveRequestedName()
     {
-        $this->services->set('Config', array('zf-api-first' => array(
+        $this->services->set('Config', array('zf-apigility' => array(
             'db-connected' => array(
                 'bar' => 'baz',
             ),
@@ -60,7 +60,7 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
      */
     public function testWillNotCreateServiceIfDbConnectedSegmentIsInvalidConfiguration($configForDbConnected)
     {
-        $config = array('zf-api-first' => array(
+        $config = array('zf-apigility' => array(
             'db-connected' => array(
                 'Foo' => $configForDbConnected,
             ),
@@ -82,7 +82,7 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
      */
     public function testWillCreateServiceIfDbConnectedSegmentIsValid($configForDbConnected, $tableServiceName)
     {
-        $config = array('zf-api-first' => array(
+        $config = array('zf-apigility' => array(
             'db-connected' => array(
                 'Foo' => $configForDbConnected,
             ),
@@ -102,7 +102,7 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
             ->getMock();
         $this->services->set($tableServiceName, $tableGateway);
 
-        $config = array('zf-api-first' => array(
+        $config = array('zf-apigility' => array(
             'db-connected' => array(
                 'Foo' => $configForDbConnected,
             ),
@@ -110,6 +110,6 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
         $this->services->set('Config', $config);
 
         $resource = $this->factory->createServiceWithName($this->services, 'foo', 'Foo');
-        $this->assertInstanceOf('ZF\ApiFirst\DbConnectedResource', $resource);
+        $this->assertInstanceOf('ZF\Apigility\DbConnectedResource', $resource);
     }
 }

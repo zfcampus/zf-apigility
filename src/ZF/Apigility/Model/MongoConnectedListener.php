@@ -1,6 +1,6 @@
 <?php
 
-namespace ZF\ApiFirst\Model;
+namespace ZF\Apigility\Model;
 
 use ZF\ApiProblem\ApiProblem;
 use ZF\Rest\AbstractResourceListener;
