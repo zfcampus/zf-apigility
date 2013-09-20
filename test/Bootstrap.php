@@ -48,7 +48,7 @@ class Bootstrap
                 'Zend\Loader\StandardAutoloader' => array(
                     'autoregister_zf' => true,
                     'namespaces' => array(
-                        'ZF\ApiFirst' => __DIR__ . '/../src/ZF/ApiFirst/',
+                        'ZF\Apigility' => __DIR__ . '/../src/ZF/Apigility/',
                         __NAMESPACE__ => __DIR__ . '/' . __NAMESPACE__,
                         'Test' => __DIR__ . '/../vendor/Test/',
                     ),

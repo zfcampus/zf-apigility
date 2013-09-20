@@ -1,6 +1,6 @@
 <?php
 
-namespace ZFTest\ApiFirst\TestAsset;
+namespace ZFTest\Apigility\TestAsset;
 
 use RuntimeException;
 use Zend\ServiceManager\ServiceLocatorInterface;

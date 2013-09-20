@@ -1,11 +1,11 @@
 <?php
 
-namespace ZFTest\ApiFirst;
+namespace ZFTest\Apigility;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use stdClass;
 use Zend\Stdlib\Hydrator\HydratorPluginManager;
-use ZF\ApiFirst\TableGatewayAbstractFactory;
+use ZF\Apigility\TableGatewayAbstractFactory;
 
 class TableGatewayAbstractFactoryTest extends TestCase
 {
@@ -25,7 +25,7 @@ class TableGatewayAbstractFactoryTest extends TestCase
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'footable', 'Foo\Table'));
     }
 
-    public function testWillNotCreateServiceIfMissingApiFirstConfig()
+    public function testWillNotCreateServiceIfMissingApigilityConfig()
     {
         $this->services->set('Config', array());
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'footable', 'Foo\Table'));
@@ -33,37 +33,37 @@ class TableGatewayAbstractFactoryTest extends TestCase
 
     public function testWillNotCreateServiceIfMissingDbConnectedConfigSegment()
     {
-        $this->services->set('Config', array('zf-api-first' => array()));
+        $this->services->set('Config', array('zf-apigility' => array()));
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'footable', 'Foo\Table'));
     }
 
     public function testWillNotCreateServiceIfMissingServiceSubSegment()
     {
-        $this->services->set('Config', array('zf-api-first' => array('db-connected' => array())));
+        $this->services->set('Config', array('zf-apigility' => array('db-connected' => array())));
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'footable', 'Foo\Table'));
     }
 
     public function testWillNotCreateServiceIfServiceSubSegmentIsInvalid()
     {
-        $this->services->set('Config', array('zf-api-first' => array('db-connected' => array('Foo' => 'invalid'))));
+        $this->services->set('Config', array('zf-apigility' => array('db-connected' => array('Foo' => 'invalid'))));
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'footable', 'Foo\Table'));
     }
 
     public function testWillNotCreateServiceIfServiceSubSegmentDoesNotContainTableName()
     {
-        $this->services->set('Config', array('zf-api-first' => array('db-connected' => array('Foo' => array()))));
+        $this->services->set('Config', array('zf-apigility' => array('db-connected' => array('Foo' => array()))));
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'footable', 'Foo\Table'));
     }
 
     public function testWillNotCreateServiceIfServiceSubSegmentDoesNotContainAdapterInformation()
     {
-        $this->services->set('Config', array('zf-api-first' => array('db-connected' => array('Foo' => array('table_name' => 'test')))));
+        $this->services->set('Config', array('zf-apigility' => array('db-connected' => array('Foo' => array('table_name' => 'test')))));
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'footable', 'Foo\Table'));
     }
 
     public function testWillCreateServiceIfConfigContainsValidTableNameAndAdapterName()
     {
-        $this->services->set('Config', array('zf-api-first' => array('db-connected' => array('Foo' => array(
+        $this->services->set('Config', array('zf-apigility' => array('db-connected' => array('Foo' => array(
             'table_name'   => 'test',
             'adapter_name' => 'FooAdapter',
         )))));
@@ -74,7 +74,7 @@ class TableGatewayAbstractFactoryTest extends TestCase
 
     public function testWillCreateServiceIfConfigContainsValidTableNameNoAdapterNameAndServicesContainDefaultAdapter()
     {
-        $this->services->set('Config', array('zf-api-first' => array('db-connected' => array('Foo' => array(
+        $this->services->set('Config', array('zf-apigility' => array('db-connected' => array('Foo' => array(
             'table_name'   => 'test',
         )))));
 
@@ -114,7 +114,7 @@ class TableGatewayAbstractFactoryTest extends TestCase
         $this->services->set($adapterServiceName, $adapter);
 
         $config = array(
-            'zf-api-first' => array(
+            'zf-apigility' => array(
                 'db-connected' => array(
                     'Foo' => array(
                         'controller_service_name' => 'Foo\Controller',
@@ -125,12 +125,12 @@ class TableGatewayAbstractFactoryTest extends TestCase
             ),
             'zf-rest' => array(
                 'Foo\Controller' => array(
-                    'entity_class' => 'ZFTest\ApiFirst\TestAsset\Foo',
+                    'entity_class' => 'ZFTest\Apigility\TestAsset\Foo',
                 ),
             ),
         );
         if ($adapterServiceName !== 'Zend\Db\Adapter\Adapter') {
-            $config['zf-api-first']['db-connected']['Foo']['adapter_name'] = $adapterServiceName;
+            $config['zf-apigility']['db-connected']['Foo']['adapter_name'] = $adapterServiceName;
         }
         $this->services->set('Config', $config);
 
@@ -141,6 +141,6 @@ class TableGatewayAbstractFactoryTest extends TestCase
         $resultSet = $gateway->getResultSetPrototype();
         $this->assertInstanceOf('Zend\Db\ResultSet\HydratingResultSet', $resultSet);
         $this->assertInstanceOf('Zend\Stdlib\Hydrator\ClassMethods', $resultSet->getHydrator());
-        $this->assertAttributeInstanceOf('ZFTest\ApiFirst\TestAsset\Foo', 'objectPrototype', $resultSet);
+        $this->assertAttributeInstanceOf('ZFTest\Apigility\TestAsset\Foo', 'objectPrototype', $resultSet);
     }
 }

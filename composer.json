@@ -1,8 +1,10 @@
 {
-    "name": "zfcampus/zf-api-first",
-    "description": "ZFApiFirst module for ZF2",
+    "name": "zfcampus/zf-apigility",
+    "description": "Apigility module for ZF2",
     "license": "BSD-3-Clause",
     "keywords": [
+        "api",
+        "apigility",
         "framework",
         "zf2"
     ],
@@ -27,7 +29,7 @@
     },
     "autoload": {
         "psr-0": {
-            "ZF\\ApiFirst\\": "src/",
+            "ZF\\Apigility\\": "src/",
             "ZFTest\\": "test/"
         }
     }
