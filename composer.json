@@ -1,8 +1,10 @@
 {
     "name": "zfcampus/zf-apigility",
-    "description": "ZF Apigility module by ZF",
+    "description": "Apigility module for ZF2",
     "license": "BSD-3-Clause",
     "keywords": [
+        "api",
+        "apigility",
         "framework",
         "zf2"
     ],
