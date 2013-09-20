@@ -1,6 +1,6 @@
 <?php
 
-namespace ZF\ApiFirst;
+namespace ZF\Apigility;
 
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
@@ -15,13 +15,13 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
         }
 
         $config = $services->get('Config');
-        if (!isset($config['zf-api-first'])
-            || !isset($config['zf-api-first']['db-connected'])
+        if (!isset($config['zf-apigility'])
+            || !isset($config['zf-apigility']['db-connected'])
         ) {
             return false;
         }
 
-        $config = $config['zf-api-first']['db-connected'];
+        $config = $config['zf-apigility']['db-connected'];
         if (!isset($config[$requestedName])
             || !is_array($config[$requestedName])
             || !$this->isValidConfig($config[$requestedName], $requestedName, $services)
@@ -35,7 +35,7 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
     public function createServiceWithName(ServiceLocatorInterface $services, $name, $requestedName)
     {
         $config        = $services->get('Config');
-        $config        = $config['zf-api-first']['db-connected'][$requestedName];
+        $config        = $config['zf-apigility']['db-connected'][$requestedName];
         $table         = $this->getTableGatewayFromConfig($config, $requestedName, $services);
         $identifier    = $this->getIdentifierFromConfig($config);
         $collection    = $this->getCollectionFromConfig($config, $requestedName);

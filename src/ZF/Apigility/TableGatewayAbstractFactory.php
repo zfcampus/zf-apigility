@@ -1,6 +1,6 @@
 <?php
 
-namespace ZF\ApiFirst;
+namespace ZF\Apigility;
 
 use Zend\Db\ResultSet\HydratingResultSet;
 use Zend\Db\TableGateway\TableGateway;
@@ -23,13 +23,13 @@ class TableGatewayAbstractFactory implements AbstractFactoryInterface
         }
 
         $config = $services->get('Config');
-        if (!isset($config['zf-api-first'])
-            || !isset($config['zf-api-first']['db-connected'])
+        if (!isset($config['zf-apigility'])
+            || !isset($config['zf-apigility']['db-connected'])
         ) {
             return false;
         }
 
-        $config      = $config['zf-api-first']['db-connected'];
+        $config      = $config['zf-apigility']['db-connected'];
         $gatewayName = substr($requestedName, 0, strlen($requestedName) - 6);
         if (!isset($config[$gatewayName])
             || !is_array($config[$gatewayName])
@@ -45,7 +45,7 @@ class TableGatewayAbstractFactory implements AbstractFactoryInterface
     {
         $gatewayName       = substr($requestedName, 0, strlen($requestedName) - 6);
         $config            = $services->get('Config');
-        $dbConnectedConfig = $config['zf-api-first']['db-connected'][$gatewayName];
+        $dbConnectedConfig = $config['zf-apigility']['db-connected'][$gatewayName];
 
         $restConfig = array();
         if (isset($config['zf-rest'])

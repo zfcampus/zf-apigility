@@ -1,6 +1,6 @@
 <?php
 
-namespace ZF\ApiFirst;
+namespace ZF\Apigility;
 
 class Module
 {
