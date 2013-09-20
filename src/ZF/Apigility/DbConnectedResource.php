@@ -1,6 +1,6 @@
 <?php
 
-namespace ZF\ApiFirst;
+namespace ZF\Apigility;
 
 use Zend\Db\TableGateway\TableGatewayInterface as TableGateway;
 use Zend\Paginator\Adapter\DbTableGateway as TableGatewayPaginator;
