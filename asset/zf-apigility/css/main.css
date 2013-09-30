@@ -8,85 +8,9 @@ body {
 a.navbar-brand {
   padding: 0px;
 }
-.ag-nav {
-  background: #0c0c56;
-  border-color: #463265;
-}
-.ag-nav .navbar-nav > li > a {
-  color: #B7D9FF;
-}
-.ag-nav .navbar-nav > li.ag-nav-dashboard a {
-  color: #fff;
-}
 .ag-navbar-collapse {
   font-size: 1.1em;
 }
 .ag-navbar-collapse button {
   margin-top: 5px;
-}
-.ag-masthead {
-  padding: 130px 15px;
-  text-align: center;
-}
-.ag-masthead h1 {
-  font-size: 100px;
-}
-.ag-masthead p.lead {
-  color: #4b70a2;
-}
-.btn-outline {
-  color: #ffffff;
-  background-color: transparent;
-  border-color: #cdbfe3;
-}
-.btn-outline:hover,
-.btn-outline:focus,
-.btn-outline:active {
-  color: #563d7c;
-  background-color: #fff;
-  border-color: #fff;
-}
-.ag-header {
-  font-size: 21px;
-  text-align: left;
-  padding: 10px 30px 40px;
-  border-bottom: 1px solid #e5e5e5;
-}
-.ag-header h1 {
-  color: #004000;
-  font-size: 60px;
-}
-.ag-module-navigation {
-  border-bottom: 1px solid #ccc;
-  font-size: 16px;
-}
-.ag-module-navigation span {
-  padding: 5px 10px;
-}
-.ag-module-navigation .ag-nav-pills li > a {
-  padding: 5px 10px;
-}
-.ag-sidebar {
-  display: block;
-}
-.ag-sidenav {
-  margin-top: 30px;
-  margin-bottom: 30px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  text-shadow: 0px 1px 0px #ffffff;
-  background-color: #f7f5fa;
-  border-radius: 5px 5px 5px 5px;
-}
-.ag-sidebar .nav li > a {
-  display: block;
-  color: #716b7a;
-  padding: 5px 20px;
-}
-.ag-sidebar .nav .active > a,
-.ag-sidebar .nav .active:hover > a .active:focus > a {
-  font-weight: bold;
-  color: #563d7c;
-  background-color: transparent;
-  border-right: 1px solid #563d7c;
 }
