@@ -1,6 +1,7 @@
 {
     "name": "zfcampus/zf-apigility",
     "description": "Apigility module for ZF2",
+    "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
         "api",
@@ -9,10 +10,15 @@
         "zf2"
     ],
     "homepage": "http://apigility.org/",
+    "support": {
+        "email": "apigility-users@zend.com",
+        "irc": "irc://irc.freenode.net/apigility",
+        "source": "https://github.com/zfcampus/zf-apigility",
+        "issues": "https://github.com/zfcampus/zf-apigility/issues"
+    },
     "minimum-stability": "dev",
     "repositories": [
-        { "type": "composer", "url": "https://packages.zendframework.com/" },
-        { "type": "composer", "url": "http://packages-zfcampus.rhcloud.com/" }
+        { "type": "composer", "url": "https://packages.zendframework.com/" }
     ],
     "require": {
         "php": ">=5.3.3",
