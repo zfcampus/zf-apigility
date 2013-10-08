@@ -22,13 +22,13 @@
     ],
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "dev-develop",
-        "zfcampus/zf-rpc": "dev-master",
-        "zfcampus/zf-content-negotiation": "dev-master",
-        "zfcampus/zf-versioning": "dev-master",
-        "zfcampus/zf-rest": "dev-master",
-        "zfcampus/zf-api-problem": "dev-master",
-        "zfcampus/zf-hal": "dev-master"
+        "zendframework/zendframework": "2.3.*",
+        "zfcampus/zf-rpc": "*",
+        "zfcampus/zf-content-negotiation": "*",
+        "zfcampus/zf-versioning": "*",
+        "zfcampus/zf-rest": "*",
+        "zfcampus/zf-api-problem": "*",
+        "zfcampus/zf-hal": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
