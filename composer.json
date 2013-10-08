@@ -28,7 +28,8 @@
         "zfcampus/zf-versioning": "dev-master",
         "zfcampus/zf-rest": "dev-master",
         "zfcampus/zf-api-problem": "dev-master",
-        "zfcampus/zf-hal": "dev-master"
+        "zfcampus/zf-hal": "dev-master",
+        "rwoverdijk/assetmanager": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
