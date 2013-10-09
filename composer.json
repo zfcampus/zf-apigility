@@ -21,7 +21,7 @@
         { "type": "composer", "url": "https://packages.zendframework.com/" }
     ],
     "require": {
-        "php": ">=5.3.3",
+        "php": ">=5.4",
         "zendframework/zendframework": "dev-develop",
         "zfcampus/zf-rpc": "dev-master",
         "zfcampus/zf-content-negotiation": "dev-master",
