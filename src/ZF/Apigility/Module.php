@@ -6,6 +6,8 @@
 
 namespace ZF\Apigility;
 
+use ZF\MvcAuth\MvcAuthEvent;
+
 class Module
 {
     public function getAutoloaderConfig()
@@ -22,5 +24,15 @@ class Module
     public function getConfig()
     {
         return include __DIR__ . '/../../../config/module.config.php';
+    }
+
+    public function onBoostrap($e)
+    {
+        $app      = $e->getApplication();
+        $services = $app->getServiceManager();
+        $events   = $app->getEventManager();
+
+        $events->attach(MvcAuthEvent::EVENT_AUTHENTICATION_POST, $services->get('ZF\Apigility\MvcAuth\UnauthenticatedListener'), 100);
+        $events->attach(MvcAuthEvent::EVENT_AUTHORIZATION_POST, $services->get('ZF\Apigility\MvcAuth\UnauthorizedListener'), 100);
     }
 }

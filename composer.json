@@ -29,6 +29,7 @@
         "zfcampus/zf-rest": "dev-master",
         "zfcampus/zf-api-problem": "dev-master",
         "zfcampus/zf-hal": "dev-master",
+        "zfcampus/zf-mvc-auth": "dev-master",
         "rwoverdijk/assetmanager": "dev-master"
     },
     "require-dev": {
