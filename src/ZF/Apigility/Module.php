@@ -26,7 +26,7 @@ class Module
         return include __DIR__ . '/../../../config/module.config.php';
     }
 
-    public function onBoostrap($e)
+    public function onBootstrap($e)
     {
         $app      = $e->getApplication();
         $services = $app->getServiceManager();
