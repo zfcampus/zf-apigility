@@ -13,6 +13,10 @@ return array(
         ),
     ),
     'service_manager' => array(
+        'invokables' => array(
+            'ZF\Apigility\MvcAuth\UnauthenticatedListener' => 'ZF\Apigility\MvcAuth\UnauthenticatedListener',
+            'ZF\Apigility\MvcAuth\UnauthorizedListener' => 'ZF\Apigility\MvcAuth\UnauthorizedListener',
+        ),
         'abstract_factories' => array(
             'ZF\Apigility\DbConnectedResourceAbstractFactory',
             'ZF\Apigility\TableGatewayAbstractFactory',
