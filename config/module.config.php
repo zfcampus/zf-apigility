@@ -18,6 +18,7 @@ return array(
             'ZF\Apigility\MvcAuth\UnauthorizedListener' => 'ZF\Apigility\MvcAuth\UnauthorizedListener',
         ),
         'abstract_factories' => array(
+            'Zend\Db\Adapter\AdapterAbstractServiceFactory', // so that db-connected works "out-of-the-box"
             'ZF\Apigility\DbConnectedResourceAbstractFactory',
             'ZF\Apigility\TableGatewayAbstractFactory',
         ),
