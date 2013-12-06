@@ -16,23 +16,28 @@
         "source": "https://github.com/zfcampus/zf-apigility",
         "issues": "https://github.com/zfcampus/zf-apigility/issues"
     },
-    "minimum-stability": "dev",
     "repositories": [
         { "type": "composer", "url": "https://packages.zendframework.com/" }
     ],
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
     "require": {
         "php": ">=5.3.3",
-        "zendframework/zendframework": "dev-develop",
-        "zfcampus/zf-rpc": "dev-master",
-        "zfcampus/zf-content-negotiation": "dev-master",
-        "zfcampus/zf-content-validation": "dev-master",
-        "zfcampus/zf-versioning": "dev-master",
-        "zfcampus/zf-rest": "dev-master",
-        "zfcampus/zf-api-problem": "dev-master",
-        "zfcampus/zf-hal": "dev-master",
-        "zfcampus/zf-mvc-auth": "dev-master",
-        "zfcampus/zf-oauth2": "dev-master",
-        "rwoverdijk/assetmanager": "dev-master"
+        "bshaffer/oauth2-server-php": "dev-develop",
+        "rwoverdijk/assetmanager": "~1.3",
+        "zendframework/zendframework": "~2.3-dev",
+        "zfcampus/zf-api-problem": "~1.0-dev",
+        "zfcampus/zf-content-negotiation": "~1.0-dev",
+        "zfcampus/zf-content-validation": "~1.0-dev",
+        "zfcampus/zf-hal": "~1.0-dev",
+        "zfcampus/zf-mvc-auth": "~1.0-dev",
+        "zfcampus/zf-oauth2": "~1.0-dev",
+        "zfcampus/zf-rest": "~1.0-dev",
+        "zfcampus/zf-rpc": "~1.0-dev",
+        "zfcampus/zf-versioning": "~1.0-dev"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
