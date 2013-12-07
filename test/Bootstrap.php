@@ -4,7 +4,7 @@
  * @copyright Copyright (c) 2013 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
-namespace ZFTest;
+namespace ZFTest\Apigility;
 
 use Zend\Loader\AutoloaderFactory;
 use RuntimeException;
@@ -50,7 +50,7 @@ class Bootstrap
                     'autoregister_zf' => true,
                     'namespaces' => array(
                         'ZF\Apigility' => __DIR__ . '/../src/ZF/Apigility/',
-                        __NAMESPACE__ => __DIR__ . '/' . __NAMESPACE__,
+                        __NAMESPACE__ => __DIR__ . '/ZFTest/Apigility/',
                         'Test' => __DIR__ . '/../vendor/Test/',
                     ),
                 ),

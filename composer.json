@@ -45,7 +45,10 @@
     "autoload": {
         "psr-0": {
             "ZF\\Apigility\\": "src/",
-            "ZFTest\\": "test/"
-        }
+            "ZFTest\\Apigility\\": "test/"
+        },
+        "classmap": [
+            "Module.php"
+        ]
     }
 }
