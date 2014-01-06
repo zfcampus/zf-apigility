@@ -21,6 +21,7 @@ class DbConnectedResource extends AbstractResourceListener
     public function __construct(TableGateway $table, $identifierName, $collectionClass)
     {
         $this->table           = $table;
+        // IdentifierName is used in abstracts
         $this->identifierName  = $identifierName;
         $this->collectionClass = $collectionClass;
     }

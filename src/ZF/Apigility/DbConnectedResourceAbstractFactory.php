@@ -83,12 +83,8 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
 
     protected function getIdentifierFromConfig(array $config)
     {
-        if (isset($config['identifier_name'])) {
-            return $config['identifier_name'];
-        }
-
-        if (isset($config['table_name'])) {
-            return $config['table_name'] . '_id';
+        if (isset($config['entity_identifier_name'])) {
+            return $config['entity_identifier_name'];
         }
 
         return 'id';
