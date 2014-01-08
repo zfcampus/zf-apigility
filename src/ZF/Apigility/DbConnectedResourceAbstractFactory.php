@@ -87,6 +87,11 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
             return $config['entity_identifier_name'];
         }
 
+        // Deprecated; for pre-0.8.1 code only.
+        if (isset($config['identifier_name'])) {
+            return $config['identifier_name'];
+        }
+
         if (isset($config['table_name'])) {
             return $config['table_name'] . '_id';
         }
