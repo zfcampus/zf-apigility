@@ -27,7 +27,12 @@ class DbConnectedResource extends AbstractResourceListener
 
     public function create($data)
     {
-        $data = (array) $data;
+        if ($this->getInputFilter()) {
+            $filter = $this->getInputFilter();
+            $data   = $filter->getValues();
+        } else {
+            $data = (array) $data;
+        }
 
         $this->table->insert($data);
         $id = $this->table->getLastInsertValue();
