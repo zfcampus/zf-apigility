@@ -51,7 +51,7 @@ class TableGatewayAbstractFactory implements AbstractFactoryInterface
         $config            = $services->get('Config');
         $dbConnectedConfig = $config['zf-apigility']['db-connected'][$gatewayName];
 
-        $restConfig = array();
+        $restConfig = $dbConnectedConfig;
         if (isset($config['zf-rest'])
             && isset($dbConnectedConfig['controller_service_name'])
             && isset($config['zf-rest'][$dbConnectedConfig['controller_service_name']])
