@@ -6,6 +6,7 @@
 
 namespace ZF\Apigility;
 
+use Zend\Mvc\MvcEvent;
 use Zend\View\Model\JsonModel;
 use ZF\Hal\View\HalJsonModel;
 use ZF\MvcAuth\MvcAuthEvent;
@@ -36,7 +37,7 @@ class Module
 
         $events->attach(MvcAuthEvent::EVENT_AUTHENTICATION_POST, $services->get('ZF\Apigility\MvcAuth\UnauthenticatedListener'), 100);
         $events->attach(MvcAuthEvent::EVENT_AUTHORIZATION_POST, $services->get('ZF\Apigility\MvcAuth\UnauthorizedListener'), 100);
-        $events->attach($e::EVENT_RENDER, array($this, 'onRender'));
+        $events->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 400);
     }
 
     /**
