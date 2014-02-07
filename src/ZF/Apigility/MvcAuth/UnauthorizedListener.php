@@ -6,28 +6,9 @@
 
 namespace ZF\Apigility\MvcAuth;
 
-use Zend\Http\Response as HttpResponse;
-use ZF\ApiProblem\ApiProblem;
-use ZF\ApiProblem\ApiProblemResponse;
-use ZF\MvcAuth\MvcAuthEvent;
+use ZF\MvcAuth\Authorization\DefaultAuthorizationPostListener;
 
-class UnauthorizedListener
+class UnauthorizedListener extends DefaultAuthorizationPostListener
 {
-    /**
-     * Determine if we have an authorization failure, and, if so, return a 403 response
-     *
-     * @param MvcAuthEvent $mvcAuthEvent
-     * @return null|ApiProblemResponse
-     */
-    public function __invoke(MvcAuthEvent $mvcAuthEvent)
-    {
-        if ($mvcAuthEvent->isAuthorized()) {
-            return;
-        }
 
-        $mvcEvent = $mvcAuthEvent->getMvcEvent();
-        $response = new ApiProblemResponse(new ApiProblem(403, 'Forbidden'));
-        $mvcEvent->setResponse($response);
-        return $response;
-    }
 }
