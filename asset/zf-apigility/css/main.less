@@ -1,67 +1,50 @@
+/**
+ * zf-apigility styles/overrides
+ */
 @agBlue: #0c0c56;
 @agLightBlue: #4B70A2;
 @agGreen: #004000;
+@agBlueHighlight: #428BCA;
 
 body {
-    padding-top: 50px;
+    padding-top: 71px;
 }
 
+.navbar {
+  > .container-fluid {
 
-.ag-home {
+    .navbar-brand {
+      padding: 10px 15px;
+    }
+
+    .ag-navbar-collapse {
+      overflow: hidden;
+      width: 100%;
+
+      ul.navbar-nav {
+        z-index: 3;
+        float: none;
+        height: 100%;
+
+        > li {
+          min-width: 85px;
+          text-align: center;
+
+          > a {
+            min-height: 70px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.navbar-inverse {
     background: @agBlue;
-    color: #fff;
 }
 
-a.navbar-brand {
-    padding: 0px;
+.navbar-fixed-top {
+    &.primary {
+
+    }
 }
-
-//.ag-nav {
-//    background: @agBlue;
-//    border-color: rgb(70, 50, 101);
-//
-//    .navbar-nav > li > a {
-//      color: #B7D9FF;
-//    }
-//
-//    .navbar-nav > li.ag-nav-dashboard a {
-//        color: #fff;
-//    }
-//
-//}
-
-.ag-navbar-collapse {
-    font-size: 1.1em;
-}
-
-.ag-navbar-collapse button {
-    margin-top: 5px;
-}
-
-//
-//.ag-masthead {
-//    padding: 130px 15px;
-//    h1 {
-//        font-size: 100px;
-//    }
-//    // p.zfa-masthead-buttons {
-//        text-align: center;
-//    // }
-//    p.lead {
-//        color: @agLightBlue;
-//    }
-//}
-
-
-//.btn-outline {
-//    color: rgb(255, 255, 255);
-//    background-color: transparent;
-//    border-color: rgb(205, 191, 227);
-//    &:hover, &:focus, &:active {
-//        color: #563d7c;
-//        background-color: #fff;
-//        border-color: #fff;
-//    }
-//}
-
-
