@@ -12,6 +12,17 @@ return array(
             ),
         ),
     ),
+    'router' => array(
+        'routes' => array(
+            'zf-apigility' => array(
+                'type'  => 'Zend\Mvc\Router\Http\Literal',
+                'options' => array(
+                    'route' => '/apigility',
+                ),
+                'may_terminate' => false,
+            ),
+        ),
+    ),
     'service_manager' => array(
         'invokables' => array(
             'ZF\Apigility\MvcAuth\UnauthenticatedListener' => 'ZF\Apigility\MvcAuth\UnauthenticatedListener',
