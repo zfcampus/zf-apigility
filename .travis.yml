@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - 5.3
+  - 5.4
+  - 5.5
+
+before_script:
+  - composer self-update
+  - composer install --dev --prefer-source
+
+script:
+  - ./vendor/bin/phpunit --coverage-clover ./build/logs/clover.xml
+  - ./bin/check-cs.sh
+  
+after_script:
+  - php ./vendor/bin/coveralls -v
+
+notifications:
+  irc: "irc.freenode.org#apigility-dev"
+  email: false

@@ -1,7 +1,7 @@
-<phpunit bootstrap="./Bootstrap.php" colors="true">
+<phpunit bootstrap="./test/Bootstrap.php" colors="true">
     <testsuites>
         <testsuite name="ZFApigility Module Tests">
-            <directory>./ZFTest</directory>
+            <directory>./test</directory>
         </testsuite>
     </testsuites>
 </phpunit>
