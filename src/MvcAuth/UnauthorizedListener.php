@@ -26,7 +26,15 @@ class UnauthorizedListener
         }
 
         $mvcEvent = $mvcAuthEvent->getMvcEvent();
+        $mvcResponse = $mvcEvent->getResponse();
+
         $response = new ApiProblemResponse(new ApiProblem(403, 'Forbidden'));
+
+        $responseHeaders = $response->getHeaders();
+        foreach ($mvcResponse->getHeaders() as $header) {
+            $responseHeaders->addHeader($header);
+        }
+
         $mvcEvent->setResponse($response);
         return $response;
     }
