@@ -52,4 +52,3 @@ class UnauthorizedListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Zend\Http\Header\WWWAuthenticate', $wwwAuthHeader[0]);
     }
 }
- 
