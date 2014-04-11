@@ -9,23 +9,15 @@ Introduction
 Meta- Zend Framework 2 module combining features from:
 
 - zf-api-problem
-- zf-hal
 - zf-content-negotiation
-- zf-versioning
+- zf-hal
 - zf-rest
 - zf-rpc
+- zf-versioning
 
 in order to provide a cohesive solution for exposing web-based APIs.
 
-Also features database and Mongo API generation for the data connected part of
-the [Apigility](http://www.apigility.org) project.
-
-
-Release note
-------------
-
-The Mongo API part is not yet complete.
-
+Also features database-connected REST resources.
 
 Installation
 ------------
@@ -69,22 +61,24 @@ The top-level configuration key for user configuration of this module is `zf-api
 
 #### `db-connected`
 
-`db-connected` is an array of resources that can be built via the `TableGatewayAbstractFactory`
-and the `DbConnectedResourceAbstractFactory` when required to fulfil the use case of database
-table driven "row as a resource" use cases.  The following example enumerates all of the
-required and optional configuration necessary to enable this.
+`db-connected` is an array of resources that can be built via the
+[TableGatewayAbstractFactory](#zfapigilitytablegatewayabstractfactory) and the
+[DbConnectedResourceAbstractFactory](#zfapigilitydbconnectedresourceabstractfactory) when required
+to fulfill the use case of database table-driven resource use cases. The following example
+enumerates all of the required and optional configuration necessary to enable this.
 
 Example:
 
 ```php
 'db-connected' => array(
-/**
- * This is sample configuration for a DB-connected service.
- * Each such service requires an adapter, a hydrator, an entity, and a
- * collection.
- *
- * The TableGateway will be called "YourDBConnectedResource\Table" should
- * you wish to retrieve it manually later.
+    /**
+     * This is sample configuration for a DB-connected service.
+     * Each such service requires an adapter, a hydrator, an entity, and a
+     * collection.
+     *
+     * The TableGateway will be called "YourDBConnectedResource\Table" should
+     * you wish to retrieve it manually later.
+     */
     'YourDBConnectedResource' => array(
         'table_service'    => 'Optional; if present, this service will be used as the table gateway',
         'resource_class'   => 'Optional; if present, this class will be used as the db-connected resource',
@@ -95,14 +89,13 @@ Example:
         'entity_class'     => 'Name of entity class to which to hydrate',
         'collection_class' => 'Name of collection class which iterates entities; should be a Paginator extension',
     ),
- */
 ),
 ```
 
 ### System Configuration
 
-The following configuration is required to ensure the proper funcitoning of this module in ZF2
-based applications:
+The following configuration is required to ensure the proper functioning of this module in Zend
+Framework 2 applications, and is provided by the module:
 
 ```php
 'asset_manager' => array(
@@ -143,22 +136,24 @@ ZF2 Events
 
 #### `ZF\Apigility\MvcAuth\UnauthenticatedListener`
 
-This listener is attached to the `MvcAuthEvent::EVENT_AUTHENTICATION_POST` at priority `100`.  The
-primary purpose fo this listener is to override the `zf-mvc-auth` _unauthenticated_ listener in order
-to be able to respond with an ApiProblem instead of a standard 401 HTTP response.
+This listener is attached to `MvcAuthEvent::EVENT_AUTHENTICATION_POST` at priority `100`.  The
+primary purpose fo this listener is to override the `zf-mvc-auth` _unauthenticated_ listener in
+order to be able to respond with an API-Problem response (vs. a standard HTTP response) on
+authentication failure.
 
 #### `ZF\Apigility\MvcAuth\UnauthorizedListener`
 
-This listener is attached to the `MvcAuthEvent::EVENT_AUTHORIZATION_POST` at priority `100`.  The
-primary purpose fo this listener is to override the `zf-mvc-auth` _unauthorized_ listener in order
-to be able to respond with an ApiProblem instead of a standard 403 HTTP response.
+This listener is attached to `MvcAuthEvent::EVENT_AUTHORIZATION_POST` at priority `100`.  The
+primary purpose of this listener is to override the `zf-mvc-auth` _unauthorized_ listener in order
+to be able to respond with an API-Problem response (vs a standard HTTP response) on authorization
+failure.
 
 #### `ZF\Apigility\Module`
 
-This listener is attached to `MvcEvent::EVENT_RENDER` at priority `400`.  It's purpose is to
-conditionally attached `ZF\ApiProblem\RenderErrorListener` when an `MvcEvent`'s result is a
-`HalJsonModel` or `JsonModel` which would ensure `zf-api-problem` can render a response in
-situations where an error is detected.
+This listener is attached to `MvcEvent::EVENT_RENDER` at priority `400`.  Its purpose is to
+conditionally attach `ZF\ApiProblem\RenderErrorListener` when an `MvcEvent`'s result is a
+`HalJsonModel` or `JsonModel`, ensuring `zf-api-problem` can render a response in situations where
+a rendering error occurs.
 
 ZF2 Services
 ============
@@ -174,13 +169,13 @@ in order to produce `ZF\Apigility\DbConnectedResource` based resources.
 
 This factory uses the requested name in addition to the `zf-apigility.db-connected` configuration
 in order to produce correctly configured `Zend\Db\TableGateway\TableGateway` instances.  These
-instances of `TableGateways` are configured to use the proper `HydratingResultSet` and produce
-the configured `Resources` with each row returned when iterated.
+instances of `TableGateway`s are configured to use the proper `HydratingResultSet` and produce
+the configured entities with each row returned when iterated.
 
 ### Models
 
 #### `ZF\Apigility\DbConnectedResource`
 
-This instance serves as the base classes for instances that need to be database connected
-REST resource classes.  This implementation is an extension of the
-`ZF\Rest\AbstractResourceListener` and can be routed to by Apigility as a RESTful resource.
+This instance serves as the base class for database connected REST resource classes.  This
+implementation is an extension of `ZF\Rest\AbstractResourceListener` and can be routed to by
+Apigility as a RESTful resource.
