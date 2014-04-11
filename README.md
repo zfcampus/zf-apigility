@@ -69,6 +69,11 @@ The top-level configuration key for user configuration of this module is `zf-api
 
 #### `db-connected`
 
+`db-connected` is an array of resources that can be built via the `TableGatewayAbstractFactory`
+and the `DbConnectedResourceAbstractFactory` when required to fulfil the use case of database
+table driven "row as a resource" use cases.  The following example enumerates all of the
+required and optional configuration necessary to enable this.
+
 Example:
 
 ```php
@@ -95,6 +100,9 @@ Example:
 ```
 
 ### System Configuration
+
+The following configuration is required to ensure the proper funcitoning of this module in ZF2
+based applications:
 
 ```php
 'asset_manager' => array(
@@ -126,25 +134,53 @@ Example:
         'ZF\Apigility\TableGatewayAbstractFactory',
     ),
 ),
-
 ```
 
 ZF2 Events
 ==========
 
-### Events
-
 ### Listeners
 
 #### `ZF\Apigility\MvcAuth\UnauthenticatedListener`
 
+This listener is attached to the `MvcAuthEvent::EVENT_AUTHENTICATION_POST` at priority `100`.  The
+primary purpose fo this listener is to override the `zf-mvc-auth` _unauthenticated_ listener in order
+to be able to respond with an ApiProblem instead of a standard 401 HTTP response.
+
 #### `ZF\Apigility\MvcAuth\UnauthorizedListener`
+
+This listener is attached to the `MvcAuthEvent::EVENT_AUTHORIZATION_POST` at priority `100`.  The
+primary purpose fo this listener is to override the `zf-mvc-auth` _unauthorized_ listener in order
+to be able to respond with an ApiProblem instead of a standard 403 HTTP response.
+
+#### `ZF\Apigility\Module`
+
+This listener is attached to `MvcEvent::EVENT_RENDER` at priority `400`.  It's purpose is to
+conditionally attached `ZF\ApiProblem\RenderErrorListener` when an `MvcEvent`'s result is a
+`HalJsonModel` or `JsonModel` which would ensure `zf-api-problem` can render a response in
+situations where an error is detected.
 
 ZF2 Services
 ============
 
+### Factories
+
 #### `ZF\Apigility\DbConnectedResourceAbstractFactory`
+
+This factory uses the requested name in addition to the `zf-apigility.db-connected` configuration
+in order to produce `ZF\Apigility\DbConnectedResource` based resources.
 
 #### `ZF\Apigility\TableGatewayAbstractFactory`
 
+This factory uses the requested name in addition to the `zf-apigility.db-connected` configuration
+in order to produce correctly configured `Zend\Db\TableGateway\TableGateway` instances.  These
+instances of `TableGateways` are configured to use the proper `HydratingResultSet` and produce
+the configured `Resources` with each row returned when iterated.
 
+### Models
+
+#### `ZF\Apigility\DbConnectedResource`
+
+This instance serves as the base classes for instances that need to be database connected
+REST resource classes.  This implementation is an extension of the
+`ZF\Rest\AbstractResourceListener` and can be routed to by Apigility as a RESTful resource.
