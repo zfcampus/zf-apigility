@@ -32,27 +32,4 @@ class UnauthorizedListenerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(403, $invokeResponse->getStatusCode());
         $this->assertEquals('Forbidden', $invokeResponse->getReasonPhrase());
     }
-
-    /**
-     * @covers ZF\Apigility\MvcAuth\UnauthorizedListener::__invoke
-     */
-    public function testInvokeWillPropagateMvcEventResponseHeaders()
-    {
-        $unauthorizedListener = new UnauthorizedListener();
-
-        $mvcEvent = new MvcEvent();
-
-        $mvcEventResponse = new Response();
-        $mvcEventResponse->getHeaders()->addHeader(new WWWAuthenticate());
-        $mvcEvent->setResponse($mvcEventResponse);
-
-        $mvcAuthEvent = new MvcAuthEvent($mvcEvent, null, null);
-        $mvcAuthEvent->setIsAuthorized(false);
-
-        $invokeResponse = $unauthorizedListener->__invoke($mvcAuthEvent);
-        $this->assertInstanceOf('ZF\ApiProblem\ApiProblemResponse', $invokeResponse);
-
-        $wwwAuthHeader = $invokeResponse->getHeaders()->get('WWW-Authenticate');
-        $this->assertInstanceOf('Zend\Http\Header\WWWAuthenticate', $wwwAuthHeader[0]);
-    }
 }
