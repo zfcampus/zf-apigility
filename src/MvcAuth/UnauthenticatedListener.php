@@ -6,7 +6,6 @@
 
 namespace ZF\Apigility\MvcAuth;
 
-use Zend\Http\Response as HttpResponse;
 use ZF\ApiProblem\ApiProblem;
 use ZF\ApiProblem\ApiProblemResponse;
 use ZF\MvcAuth\MvcAuthEvent;

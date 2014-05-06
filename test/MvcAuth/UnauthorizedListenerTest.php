@@ -6,7 +6,6 @@
 
 namespace ZFTest\Apigility\MvcAuth;
 
-use Zend\Http\Header\WWWAuthenticate;
 use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
 use ZF\Apigility\MvcAuth\UnauthorizedListener;
