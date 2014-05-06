@@ -22,6 +22,9 @@
     "extra": {
         "branch-alias": {
             "dev-master": "1.0-dev"
+        },
+        "branch-alias": {
+            "dev-develop": "1.1-dev"
         }
     },
     "require": {
@@ -30,16 +33,16 @@
         "zendframework/zend-db": "~2.3",
         "zendframework/zend-paginator": "~2.3",
         "zendframework/zend-servicemanager": "~2.3",
-        "zfcampus/zf-api-problem": "~1.0-dev",
-        "zfcampus/zf-apigility-provider": "~1.0-dev",
-        "zfcampus/zf-content-negotiation": "~1.0-dev",
-        "zfcampus/zf-content-validation": "~1.0-dev",
-        "zfcampus/zf-hal": "~1.0-dev",
-        "zfcampus/zf-mvc-auth": "~1.0-dev",
-        "zfcampus/zf-oauth2": "~1.0-dev",
-        "zfcampus/zf-rest": "~1.0-dev",
-        "zfcampus/zf-rpc": "~1.0-dev",
-        "zfcampus/zf-versioning": "~1.0-dev"
+        "zfcampus/zf-api-problem": "~1.0",
+        "zfcampus/zf-apigility-provider": "~1.0",
+        "zfcampus/zf-content-negotiation": "~1.0",
+        "zfcampus/zf-content-validation": "~1.0",
+        "zfcampus/zf-hal": "~1.0",
+        "zfcampus/zf-mvc-auth": "~1.0",
+        "zfcampus/zf-oauth2": "~1.0",
+        "zfcampus/zf-rest": "~1.0",
+        "zfcampus/zf-rpc": "~1.0",
+        "zfcampus/zf-versioning": "~1.0"
     },
     "require-dev": {
         "fabpot/php-cs-fixer": "*@dev",
