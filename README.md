@@ -19,6 +19,11 @@ in order to provide a cohesive solution for exposing web-based APIs.
 
 Also features database-connected REST resources.
 
+Requirements
+------------
+  
+Please see the [composer.json](composer.json) file.
+
 Installation
 ------------
 
