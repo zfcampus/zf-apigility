@@ -27,13 +27,7 @@ class DbConnectedResource extends AbstractResourceListener
 
     public function create($data)
     {
-        if ($this->getInputFilter()) {
-            $filter = $this->getInputFilter();
-            $data   = $filter->getValues();
-        } else {
-            $data = (array) $data;
-        }
-
+        $data = $this->retrieveData($data);
         $this->table->insert($data);
         $id = $this->table->getLastInsertValue();
         return $this->fetch($id);
@@ -41,8 +35,7 @@ class DbConnectedResource extends AbstractResourceListener
 
     public function update($id, $data)
     {
-        $data = (array) $data;
-
+        $data = $this->retrieveData($data);
         $this->table->update($data, array($this->identifierName => $id));
         return $this->fetch($id);
     }
@@ -71,5 +64,24 @@ class DbConnectedResource extends AbstractResourceListener
     {
         $adapter = new TableGatewayPaginator($this->table);
         return new $this->collectionClass($adapter);
+    }
+
+    /**
+     * Retrieve data
+     *
+     * Retrieve data from composed input filter, if any; if none, cast the data
+     * passed to the method to an array.
+     *
+     * @param mixed $data
+     * @return array
+     */
+    protected function retrieveData($data)
+    {
+        $filter = $this->getInputFilter();
+        if (null !== $filter) {
+            return $filter->getValues();
+        }
+
+        return (array) $data;
     }
 }
