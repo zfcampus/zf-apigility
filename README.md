@@ -64,7 +64,7 @@ Configuration
 
 The top-level configuration key for user configuration of this module is `zf-api-problem`.
 
-#### `db-connected`
+#### db-connected
 
 `db-connected` is an array of resources that can be built via the
 [TableGatewayAbstractFactory](#zfapigilitytablegatewayabstractfactory) and the
@@ -139,21 +139,21 @@ ZF2 Events
 
 ### Listeners
 
-#### `ZF\Apigility\MvcAuth\UnauthenticatedListener`
+#### ZF\Apigility\MvcAuth\UnauthenticatedListener
 
 This listener is attached to `MvcAuthEvent::EVENT_AUTHENTICATION_POST` at priority `100`.  The
 primary purpose fo this listener is to override the `zf-mvc-auth` _unauthenticated_ listener in
 order to be able to respond with an API-Problem response (vs. a standard HTTP response) on
 authentication failure.
 
-#### `ZF\Apigility\MvcAuth\UnauthorizedListener`
+#### ZF\Apigility\MvcAuth\UnauthorizedListener
 
 This listener is attached to `MvcAuthEvent::EVENT_AUTHORIZATION_POST` at priority `100`.  The
 primary purpose of this listener is to override the `zf-mvc-auth` _unauthorized_ listener in order
 to be able to respond with an API-Problem response (vs a standard HTTP response) on authorization
 failure.
 
-#### `ZF\Apigility\Module`
+#### ZF\Apigility\Module
 
 This listener is attached to `MvcEvent::EVENT_RENDER` at priority `400`.  Its purpose is to
 conditionally attach `ZF\ApiProblem\RenderErrorListener` when an `MvcEvent`'s result is a
@@ -165,12 +165,12 @@ ZF2 Services
 
 ### Factories
 
-#### `ZF\Apigility\DbConnectedResourceAbstractFactory`
+#### ZF\Apigility\DbConnectedResourceAbstractFactory
 
 This factory uses the requested name in addition to the `zf-apigility.db-connected` configuration
 in order to produce `ZF\Apigility\DbConnectedResource` based resources.
 
-#### `ZF\Apigility\TableGatewayAbstractFactory`
+#### ZF\Apigility\TableGatewayAbstractFactory
 
 This factory uses the requested name in addition to the `zf-apigility.db-connected` configuration
 in order to produce correctly configured `Zend\Db\TableGateway\TableGateway` instances.  These
@@ -179,7 +179,7 @@ the configured entities with each row returned when iterated.
 
 ### Models
 
-#### `ZF\Apigility\DbConnectedResource`
+#### ZF\Apigility\DbConnectedResource
 
 This instance serves as the base class for database connected REST resource classes.  This
 implementation is an extension of `ZF\Rest\AbstractResourceListener` and can be routed to by
