@@ -6,8 +6,6 @@
 
 namespace ZFTest\Apigility\Model;
 
-use MongoClient;
-use MongoCollection;
 use MongoDB;
 use PHPUnit_Framework_TestCase as TestCase;
 use ZF\Apigility\Model\MongoConnectedListener;
@@ -57,7 +55,7 @@ class MongoConnectedListenerTest extends TestCase
                 'This test cannot be executed.'
             );
         }
-        $data = array ( 'foo' => 'baz' );
+        $data = array( 'foo' => 'baz' );
         $this->assertTrue($this->mongoListener->patch(static::$lastId, $data));
     }
 
@@ -99,5 +97,4 @@ class MongoConnectedListenerTest extends TestCase
         $result = $this->mongoListener->delete(self::$lastId);
         $this->assertTrue($result);
     }
-
 }
