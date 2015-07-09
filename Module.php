@@ -35,8 +35,16 @@ class Module
         $services = $app->getServiceManager();
         $events   = $app->getEventManager();
 
-        $events->attach(MvcAuthEvent::EVENT_AUTHENTICATION_POST, $services->get('ZF\Apigility\MvcAuth\UnauthenticatedListener'), 100);
-        $events->attach(MvcAuthEvent::EVENT_AUTHORIZATION_POST, $services->get('ZF\Apigility\MvcAuth\UnauthorizedListener'), 100);
+        $events->attach(
+            MvcAuthEvent::EVENT_AUTHENTICATION_POST,
+            $services->get('ZF\Apigility\MvcAuth\UnauthenticatedListener'),
+            100
+        );
+        $events->attach(
+            MvcAuthEvent::EVENT_AUTHORIZATION_POST,
+            $services->get('ZF\Apigility\MvcAuth\UnauthorizedListener'),
+            100
+        );
         $events->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 400);
     }
 

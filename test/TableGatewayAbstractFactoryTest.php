@@ -64,7 +64,9 @@ class TableGatewayAbstractFactoryTest extends TestCase
         $this->services->set('Config', array(
             'zf-apigility' => array(
                 'db-connected' => array(
-                    'Foo' => array('table_name' => 'test'),
+                    'Foo' => array(
+                        'table_name' => 'test',
+                    ),
                 ),
             ),
         ));
