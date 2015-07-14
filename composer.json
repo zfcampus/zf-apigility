@@ -28,9 +28,9 @@
     "require": {
         "php": ">=5.3.23",
         "rwoverdijk/assetmanager": "~1.3",
-        "zendframework/zend-db": "~2.3",
-        "zendframework/zend-paginator": "~2.3",
-        "zendframework/zend-servicemanager": "~2.3",
+        "zendframework/zend-db": ">=2.3,<2.5",
+        "zendframework/zend-paginator": ">=2.3,<2.5",
+        "zendframework/zend-servicemanager": ">=2.3,<2.5",
         "zfcampus/zf-api-problem": "~1.0",
         "zfcampus/zf-apigility-provider": "~1.0",
         "zfcampus/zf-content-negotiation": "~1.0",
@@ -43,20 +43,24 @@
         "zfcampus/zf-versioning": "~1.0"
     },
     "require-dev": {
-        "fabpot/php-cs-fixer": "*@dev",
-        "phpunit/PHPUnit": "3.7.*",
-        "zendframework/zend-http": "~2.3",
-        "zendframework/zend-loader": "~2.3",
-        "zendframework/zend-mvc": "~2.3",
-        "zendframework/zend-stdlib": "~2.3"
+        "phpunit/phpunit": "~4.7",
+        "squizlabs/php_codesniffer": "^2.3",
+        "zendframework/zend-http": ">=2.3,<2.5",
+        "zendframework/zend-loader": ">=2.3,<2.5",
+        "zendframework/zend-mvc": ">=2.3,<2.5",
+        "zendframework/zend-stdlib": ">=2.3,<2.5"
     },
     "autoload": {
         "psr-4": {
-            "ZF\\Apigility\\": "src/",
-            "ZFTest\\Apigility\\": "test/"
+            "ZF\\Apigility\\": "src/"
         },
         "classmap": [
             "Module.php"
         ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ZFTest\\Apigility\\": "test/"
+        }
     }
 }

@@ -1,4 +1,4 @@
-<phpunit bootstrap="./test/Bootstrap.php" colors="true">
+<phpunit bootstrap="./vendor/autoload.php" colors="true">
     <testsuites>
         <testsuite name="ZFApigility Module Tests">
             <directory>./test</directory>

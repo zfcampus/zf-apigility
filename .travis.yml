@@ -1,18 +1,39 @@
+sudo: false
+
 language: php
 
-php:
-  - 5.3
-  - 5.4
-  - 5.5
+cache:
+  directories:
+    - $HOME/.composer/cache
 
-before_script:
-  - composer self-update
-  - composer install --dev --prefer-source
-
-script:
-  - ./vendor/bin/phpunit
-  - ./vendor/bin/php-cs-fixer -v fix . --dry-run --config-file ./.php_cs
+matrix:
+  fast_finish: true
+  include:
+    - php: 5.3
+    - php: 5.4
+    - php: 5.5
+      env:
+        - EXECUTE_CS_CHECK=true
+    - php: 5.6
+      env:
+        - EXECUTE_COVERAGE=true
+    - php: 7
+    - php: hhvm 
+  allow_failures:
+    - php: 7
+    - php: hhvm
   
 notifications:
   irc: "irc.freenode.org#apigility-dev"
   email: false
+
+before_install:
+  - if [[ $EXECUTE_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
+  - composer self-update
+
+install:
+  - travis_retry composer install --no-interaction --ignore-platform-reqs --prefer-source
+
+script:
+  - ./vendor/bin/phpunit
+  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/phpcs ; fi
