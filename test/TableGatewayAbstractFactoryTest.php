@@ -61,7 +61,13 @@ class TableGatewayAbstractFactoryTest extends TestCase
 
     public function testWillNotCreateServiceIfServiceSubSegmentDoesNotContainAdapterInformation()
     {
-        $this->services->set('Config', array('zf-apigility' => array('db-connected' => array('Foo' => array('table_name' => 'test')))));
+        $this->services->set('Config', array(
+            'zf-apigility' => array(
+                'db-connected' => array(
+                    'Foo' => array('table_name' => 'test'),
+                ),
+            ),
+        ));
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'footable', 'Foo\Table'));
     }
 
