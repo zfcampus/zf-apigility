@@ -17,5 +17,6 @@
     <!-- Paths to check -->
     <file>src</file>
     <file>test</file>
+    <file>Module.php</file>
     <exclude-pattern>*/test/TestAsset/*_*</exclude-pattern>
 </ruleset>
