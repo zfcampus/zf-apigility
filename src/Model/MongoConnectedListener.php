@@ -61,8 +61,8 @@ class MongoConnectedListener extends AbstractResourceListener
     public function patch($id, $data)
     {
         $result = $this->collection->update(
-            array( '_id' => new MongoId($id) ),
-            array( '$set' => $data )
+            [ '_id' => new MongoId($id) ],
+            [ '$set' => $data ]
         );
 
         if (isset($result['ok']) && $result['ok']) {
@@ -79,9 +79,9 @@ class MongoConnectedListener extends AbstractResourceListener
      */
     public function fetch($id)
     {
-        $result = $this->collection->findOne(array(
+        $result = $this->collection->findOne([
             '_id' => new MongoId($id)
-        ));
+        ]);
 
         if (null === $result) {
             return new ApiProblem(404, 'Document not found in the collection');
@@ -96,11 +96,11 @@ class MongoConnectedListener extends AbstractResourceListener
      * @param  array $params
      * @return MongoCursor
      */
-    public function fetchAll($params = array())
+    public function fetchAll($params = [])
     {
         // @todo How to handle the pagination?
         $rows = $this->collection->find($params);
-        $result = array();
+        $result = [];
         foreach ($rows as $id => $collection) {
             unset($collection['_id']);
             $result[$id] = $collection;
@@ -116,9 +116,9 @@ class MongoConnectedListener extends AbstractResourceListener
      */
     public function delete($id)
     {
-        $result = $this->collection->remove(array(
+        $result = $this->collection->remove([
             '_id' => new MongoId($id)
-        ));
+        ]);
         if (isset($result['ok']) && $result['ok']) {
             return true;
         }

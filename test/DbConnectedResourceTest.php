@@ -31,10 +31,10 @@ class DbConnectedResourceTest extends TestCase
 
     public function testCreatePullsDataFromComposedInputFilterWhenPresent()
     {
-        $filtered = array(
+        $filtered = [
             'foo' => 'BAR',
             'baz' => 'QUZ',
-        );
+        ];
 
         $filter = $this->getMock('Zend\InputFilter\InputFilter');
         $filter->expects($this->once())
@@ -55,7 +55,7 @@ class DbConnectedResourceTest extends TestCase
 
         $this->table->expects($this->once())
             ->method('select')
-            ->with($this->equalTo(array('id' => 'foo')))
+            ->with($this->equalTo(['id' => 'foo']))
             ->will($this->returnValue($resultSet));
 
         $resultSet->expects($this->once())
@@ -66,15 +66,15 @@ class DbConnectedResourceTest extends TestCase
             ->method('current')
             ->will($this->returnValue($filtered));
 
-        $this->assertEquals($filtered, $this->resource->create(array('foo' => 'bar')));
+        $this->assertEquals($filtered, $this->resource->create(['foo' => 'bar']));
     }
 
     public function testUpdatePullsDataFromComposedInputFilterWhenPresent()
     {
-        $filtered = array(
+        $filtered = [
             'foo' => 'BAR',
             'baz' => 'QUZ',
-        );
+        ];
 
         $filter = $this->getMock('Zend\InputFilter\InputFilter');
         $filter->expects($this->once())
@@ -87,14 +87,14 @@ class DbConnectedResourceTest extends TestCase
             ->method('update')
             ->with(
                 $this->equalTo($filtered),
-                array('id' => 'foo')
+                ['id' => 'foo']
             );
 
         $resultSet = $this->getMock('Zend\Db\ResultSet\AbstractResultSet');
 
         $this->table->expects($this->once())
             ->method('select')
-            ->with($this->equalTo(array('id' => 'foo')))
+            ->with($this->equalTo(['id' => 'foo']))
             ->will($this->returnValue($resultSet));
 
         $resultSet->expects($this->once())
@@ -105,15 +105,15 @@ class DbConnectedResourceTest extends TestCase
             ->method('current')
             ->will($this->returnValue($filtered));
 
-        $this->assertEquals($filtered, $this->resource->update('foo', array('foo' => 'bar')));
+        $this->assertEquals($filtered, $this->resource->update('foo', ['foo' => 'bar']));
     }
 
     public function testPatchPullsDataFromComposedInputFilterWhenPresent()
     {
-        $filtered = array(
+        $filtered = [
             'foo' => 'BAR',
             'baz' => 'QUZ',
-        );
+        ];
 
         $filter = $this->getMock('Zend\InputFilter\InputFilter');
         $filter->expects($this->once())
@@ -126,14 +126,14 @@ class DbConnectedResourceTest extends TestCase
             ->method('update')
             ->with(
                 $this->equalTo($filtered),
-                array('id' => 'foo')
+                ['id' => 'foo']
             );
 
         $resultSet = $this->getMock('Zend\Db\ResultSet\AbstractResultSet');
 
         $this->table->expects($this->once())
             ->method('select')
-            ->with($this->equalTo(array('id' => 'foo')))
+            ->with($this->equalTo(['id' => 'foo']))
             ->will($this->returnValue($resultSet));
 
         $resultSet->expects($this->once())
@@ -144,6 +144,6 @@ class DbConnectedResourceTest extends TestCase
             ->method('current')
             ->will($this->returnValue($filtered));
 
-        $this->assertEquals($filtered, $this->resource->patch('foo', array('foo' => 'bar')));
+        $this->assertEquals($filtered, $this->resource->patch('foo', ['foo' => 'bar']));
     }
 }

@@ -13,10 +13,10 @@ class AutoloaderTest extends TestCase
 {
     public function classesToAutoload()
     {
-        return array(
-            'Foo_Bar'         => array('ZFTest\Apigility\TestAsset\Foo_Bar'),
-            'Foo_Bar\Baz_Bat' => array('ZFTest\Apigility\TestAsset\Foo_Bar\Baz_Bat'),
-        );
+        return [
+            'Foo_Bar'         => ['ZFTest\Apigility\TestAsset\Foo_Bar'],
+            'Foo_Bar\Baz_Bat' => ['ZFTest\Apigility\TestAsset\Foo_Bar\Baz_Bat'],
+        ];
     }
 
     /**
@@ -24,11 +24,11 @@ class AutoloaderTest extends TestCase
      */
     public function testAutoloaderDoesNotTransformUnderscoresToDirectorySeparators($className)
     {
-        $autoloader = new Autoloader(array(
-            'namespaces' => array(
+        $autoloader = new Autoloader([
+            'namespaces' => [
                 'ZFTest\Apigility\TestAsset' => __DIR__ . '/TestAsset',
-            ),
-        ));
+            ],
+        ]);
         $result = $autoloader->autoload($className);
         $this->assertFalse(false === $result);
         $this->assertTrue(class_exists($className, false));

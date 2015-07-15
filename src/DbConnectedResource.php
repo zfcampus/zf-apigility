@@ -36,7 +36,7 @@ class DbConnectedResource extends AbstractResourceListener
     public function update($id, $data)
     {
         $data = $this->retrieveData($data);
-        $this->table->update($data, array($this->identifierName => $id));
+        $this->table->update($data, [$this->identifierName => $id]);
         return $this->fetch($id);
     }
 
@@ -47,20 +47,20 @@ class DbConnectedResource extends AbstractResourceListener
 
     public function delete($id)
     {
-        $item = $this->table->delete(array($this->identifierName => $id));
+        $item = $this->table->delete([$this->identifierName => $id]);
         return ($item > 0);
     }
 
     public function fetch($id)
     {
-        $resultSet = $this->table->select(array($this->identifierName => $id));
+        $resultSet = $this->table->select([$this->identifierName => $id]);
         if (0 === $resultSet->count()) {
             throw new \Exception('Item not found', 404);
         }
         return $resultSet->current();
     }
 
-    public function fetchAll($data = array())
+    public function fetchAll($data = [])
     {
         $adapter = new TableGatewayPaginator($this->table);
         return new $this->collectionClass($adapter);
