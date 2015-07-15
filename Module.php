@@ -15,13 +15,13 @@ class Module
 {
     public function getAutoloaderConfig()
     {
-        return array(
-            'Zend\Loader\StandardAutoloader' => array(
-                'namespaces' => array(
+        return [
+            'Zend\Loader\StandardAutoloader' => [
+                'namespaces' => [
                     __NAMESPACE__ => __DIR__ . '/src/',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     public function getConfig()
@@ -45,7 +45,7 @@ class Module
             $services->get('ZF\Apigility\MvcAuth\UnauthorizedListener'),
             100
         );
-        $events->attach(MvcEvent::EVENT_RENDER, array($this, 'onRender'), 400);
+        $events->attach(MvcEvent::EVENT_RENDER, [$this, 'onRender'], 400);
     }
 
     /**

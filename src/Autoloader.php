@@ -28,7 +28,7 @@ class Autoloader extends StandardAutoloader
     {
         // $class may contain a namespace portion, in  which case we need
         // to preserve any underscores in that portion.
-        $matches = array();
+        $matches = [];
         preg_match('/(?P<namespace>.+\\\)?(?P<class>[^\\\]+$)/', $class, $matches);
 
         $class     = (isset($matches['class'])) ? $matches['class'] : '';

@@ -42,7 +42,7 @@ class MongoConnectedListenerTest extends TestCase
 
     public function testCreate()
     {
-        $data = array( 'foo' => 'bar' );
+        $data = [ 'foo' => 'bar' ];
         $result = $this->mongoListener->create($data);
         $this->assertTrue(isset($result['_id']));
         static::$lastId = $result['_id'];
@@ -55,7 +55,7 @@ class MongoConnectedListenerTest extends TestCase
                 'This test cannot be executed.'
             );
         }
-        $data = array( 'foo' => 'baz' );
+        $data = [ 'foo' => 'baz' ];
         $this->assertTrue($this->mongoListener->patch(static::$lastId, $data));
     }
 
@@ -75,12 +75,12 @@ class MongoConnectedListenerTest extends TestCase
     {
         $num = 3;
         for ($i=0; $i < $num; $i++) {
-            $this->mongoListener->create(array(
+            $this->mongoListener->create([
                 'foo'   => 'bau',
                 'count' => $i
-            ));
+            ]);
         }
-        $data = array( 'foo' => 'bau' );
+        $data = [ 'foo' => 'bau' ];
         $result = $this->mongoListener->fetchAll($data);
         $this->assertTrue(!empty($result));
         $this->assertTrue(is_array($result));

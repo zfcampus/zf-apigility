@@ -11,7 +11,7 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 
 class ServiceManager implements ServiceLocatorInterface
 {
-    protected $services = array();
+    protected $services = [];
 
     public function get($name)
     {
