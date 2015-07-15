@@ -25,38 +25,38 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
 
     public function testWillNotCreateServiceIfApigilityConfigMissing()
     {
-        $this->services->set('Config', array());
+        $this->services->set('Config', []);
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
     }
 
     public function testWillNotCreateServiceIfApigilityConfigIsNotAnArray()
     {
-        $this->services->set('Config', array('zf-apigility' => 'invalid'));
+        $this->services->set('Config', ['zf-apigility' => 'invalid']);
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
     }
 
     public function testWillNotCreateServiceIfApigilityConfigDoesNotHaveDbConnectedSegment()
     {
-        $this->services->set('Config', array('zf-apigility' => array('foo' => 'bar')));
+        $this->services->set('Config', ['zf-apigility' => ['foo' => 'bar']]);
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
     }
 
     public function testWillNotCreateServiceIfDbConnectedSegmentDoesNotHaveRequestedName()
     {
-        $this->services->set('Config', array('zf-apigility' => array(
-            'db-connected' => array(
+        $this->services->set('Config', ['zf-apigility' => [
+            'db-connected' => [
                 'bar' => 'baz',
-            ),
-        )));
+            ],
+        ]]);
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
     }
 
     public function invalidConfig()
     {
-        return array(
-            'invalid_table_service' => array(array('table_service' => 'non_existent')),
-            'invalid_virtual_table' => array(array()),
-        );
+        return [
+            'invalid_table_service' => [['table_service' => 'non_existent']],
+            'invalid_virtual_table' => [[]],
+        ];
     }
 
     /**
@@ -64,21 +64,21 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
      */
     public function testWillNotCreateServiceIfDbConnectedSegmentIsInvalidConfiguration($configForDbConnected)
     {
-        $config = array('zf-apigility' => array(
-            'db-connected' => array(
+        $config = ['zf-apigility' => [
+            'db-connected' => [
                 'Foo' => $configForDbConnected,
-            ),
-        ));
+            ],
+        ]];
         $this->services->set('Config', $config);
         $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
     }
 
     public function validConfig()
     {
-        return array(
-            'table_service' => array(array('table_service' => 'foobartable'), 'foobartable'),
-            'virtual_table' => array(array(), 'Foo\Table'),
-        );
+        return [
+            'table_service' => [['table_service' => 'foobartable'], 'foobartable'],
+            'virtual_table' => [[], 'Foo\Table'],
+        ];
     }
 
     /**
@@ -86,11 +86,11 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
      */
     public function testWillCreateServiceIfDbConnectedSegmentIsValid($configForDbConnected, $tableServiceName)
     {
-        $config = array('zf-apigility' => array(
-            'db-connected' => array(
+        $config = ['zf-apigility' => [
+            'db-connected' => [
                 'Foo' => $configForDbConnected,
-            ),
-        ));
+            ],
+        ]];
         $this->services->set('Config', $config);
         $this->services->set($tableServiceName, new stdClass());
         $this->assertTrue($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
@@ -106,11 +106,11 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
             ->getMock();
         $this->services->set($tableServiceName, $tableGateway);
 
-        $config = array('zf-apigility' => array(
-            'db-connected' => array(
+        $config = ['zf-apigility' => [
+            'db-connected' => [
                 'Foo' => $configForDbConnected,
-            ),
-        ));
+            ],
+        ]];
         $this->services->set('Config', $config);
 
         $resource = $this->factory->createServiceWithName($this->services, 'foo', 'Foo');

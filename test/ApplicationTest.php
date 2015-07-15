@@ -31,7 +31,7 @@ class ApplicationTest extends TestCase
             ->getMock();
         $this->services = $services = $this->setUpServices($services, $events, $request, $response);
 
-        $app = new Application(array(), $services);
+        $app = new Application([], $services);
         $this->app = $app = $this->setUpMvcEvent($app, $request, $response);
     }
 
