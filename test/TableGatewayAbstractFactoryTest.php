@@ -8,7 +8,7 @@ namespace ZFTest\Apigility;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use stdClass;
-use Zend\Stdlib\Hydrator\HydratorPluginManager;
+use Zend\Hydrator\HydratorPluginManager;
 use ZF\Apigility\TableGatewayAbstractFactory;
 
 class TableGatewayAbstractFactoryTest extends TestCase
@@ -152,7 +152,7 @@ class TableGatewayAbstractFactoryTest extends TestCase
         $this->assertSame($adapter, $gateway->getAdapter());
         $resultSet = $gateway->getResultSetPrototype();
         $this->assertInstanceOf('Zend\Db\ResultSet\HydratingResultSet', $resultSet);
-        $this->assertInstanceOf('Zend\Stdlib\Hydrator\ClassMethods', $resultSet->getHydrator());
+        $this->assertInstanceOf('Zend\Hydrator\ClassMethods', $resultSet->getHydrator());
         $this->assertAttributeInstanceOf('ZFTest\Apigility\TestAsset\Foo', 'objectPrototype', $resultSet);
     }
 
@@ -202,7 +202,7 @@ class TableGatewayAbstractFactoryTest extends TestCase
         $this->assertSame($adapter, $gateway->getAdapter());
         $resultSet = $gateway->getResultSetPrototype();
         $this->assertInstanceOf('Zend\Db\ResultSet\HydratingResultSet', $resultSet);
-        $this->assertInstanceOf('Zend\Stdlib\Hydrator\ClassMethods', $resultSet->getHydrator());
+        $this->assertInstanceOf('Zend\Hydrator\ClassMethods', $resultSet->getHydrator());
         $this->assertAttributeInstanceOf('ZFTest\Apigility\TestAsset\Bar', 'objectPrototype', $resultSet);
     }
 }
