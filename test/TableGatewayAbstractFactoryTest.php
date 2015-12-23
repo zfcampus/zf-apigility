@@ -152,7 +152,13 @@ class TableGatewayAbstractFactoryTest extends TestCase
         $this->assertSame($adapter, $gateway->getAdapter());
         $resultSet = $gateway->getResultSetPrototype();
         $this->assertInstanceOf('Zend\Db\ResultSet\HydratingResultSet', $resultSet);
-        $this->assertInstanceOf('Zend\Stdlib\Hydrator\ClassMethods', $resultSet->getHydrator());
+
+        if (class_exists('Zend\Hydrator\ClassMethods')) {
+            $this->assertInstanceOf('Zend\Hydrator\ClassMethods', $resultSet->getHydrator());
+        } else {
+            $this->assertInstanceOf('Zend\Stdlib\Hydrator\ClassMethods', $resultSet->getHydrator());
+        }
+
         $this->assertAttributeInstanceOf('ZFTest\Apigility\TestAsset\Foo', 'objectPrototype', $resultSet);
     }
 
@@ -202,7 +208,13 @@ class TableGatewayAbstractFactoryTest extends TestCase
         $this->assertSame($adapter, $gateway->getAdapter());
         $resultSet = $gateway->getResultSetPrototype();
         $this->assertInstanceOf('Zend\Db\ResultSet\HydratingResultSet', $resultSet);
-        $this->assertInstanceOf('Zend\Stdlib\Hydrator\ClassMethods', $resultSet->getHydrator());
+
+        if (class_exists('Zend\Hydrator\ClassMethods')) {
+            $this->assertInstanceOf('Zend\Hydrator\ClassMethods', $resultSet->getHydrator());
+        } else {
+            $this->assertInstanceOf('Zend\Stdlib\Hydrator\ClassMethods', $resultSet->getHydrator());
+        }
+
         $this->assertAttributeInstanceOf('ZFTest\Apigility\TestAsset\Bar', 'objectPrototype', $resultSet);
     }
 }

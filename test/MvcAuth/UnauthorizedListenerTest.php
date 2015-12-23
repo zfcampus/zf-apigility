@@ -16,7 +16,7 @@ class UnauthorizedListenerTest extends \PHPUnit_Framework_TestCase
     /**
      * @covers ZF\Apigility\MvcAuth\UnauthorizedListener::__invoke
      */
-    public function testInvokePropagates403ResponseWhenAuthenticationHasFailed()
+    public function testInvokePropagates403ResponseWhenAuthorizationHasFailed()
     {
         $unauthorizedListener = new UnauthorizedListener();
 
