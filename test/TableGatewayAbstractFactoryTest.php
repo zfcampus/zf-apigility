@@ -8,9 +8,18 @@ namespace ZFTest\Apigility;
 
 use PHPUnit_Framework_TestCase as TestCase;
 use stdClass;
+use Zend\Db\Adapter\Adapter as DbAdapter;
+use Zend\Db\Adapter\Platform\PlatformInterface as DbPlatformInterface;
+use Zend\Db\ResultSet\HydratingResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\Hydrator\ClassMethods;
 use Zend\Hydrator\HydratorPluginManager;
 use ZF\Apigility\TableGatewayAbstractFactory;
 
+/**
+ * @todo Rewrite this to use a prophesized ContainerInterface/ServiceLocatorInterface,
+ *     and see if that will resolve the issues reported in https://github.com/zendframework/zend-servicemanager/pull/136#issuecomment-232782751
+ */
 class TableGatewayAbstractFactoryTest extends TestCase
 {
     public function setUp()
@@ -90,7 +99,7 @@ class TableGatewayAbstractFactoryTest extends TestCase
             'table_name'   => 'test',
         ]]]]);
 
-        $this->services->set('Zend\Db\Adapter\Adapter', new stdClass());
+        $this->services->set(DbAdapter::class, new stdClass());
         $this->assertTrue($this->factory->canCreateServiceWithName($this->services, 'footable', 'Foo\Table'));
     }
 
@@ -98,7 +107,7 @@ class TableGatewayAbstractFactoryTest extends TestCase
     {
         return [
             'named_adapter'   => ['Db\NamedAdapter'],
-            'default_adapter' => ['Zend\Db\Adapter\Adapter'],
+            'default_adapter' => [DbAdapter::class],
         ];
     }
 
@@ -107,23 +116,20 @@ class TableGatewayAbstractFactoryTest extends TestCase
      */
     public function testFactoryReturnsTableGatewayInstanceBasedOnConfiguration($adapterServiceName)
     {
-        $this->services->set('HydratorManager', new HydratorPluginManager());
+        $this->fail('In testFactoryReturnsTableGatewayInstanceBasedOnConfiguration');
+        $hydrator = $this->prophesize(ClassMethods::class)->reveal();
+        $hydrators = $this->prophesize(HydratorPluginManager::class);
+        $hydrators->get(ClassMethods::class)->willReturn($hydrator->reveal());
 
-        $platform = $this->getMockBuilder('Zend\Db\Adapter\Platform\PlatformInterface')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $platform->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue('sqlite'));
+        $this->services->set('HydratorManager', $hydrators->reveal());
 
-        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $adapter->expects($this->any())
-            ->method('getPlatform')
-            ->will($this->returnValue($platform));
+        $platform = $this->prophesize(DbPlatformInterface::class);
+        $platform->getName()->willReturn('sqlite');
 
-        $this->services->set($adapterServiceName, $adapter);
+        $adapter = $this->prophesize(DbAdapter::class);
+        $adapter->getPlatform()->willReturn($platform->reveal());
+
+        $this->services->set($adapterServiceName, $adapter->reveal());
 
         $config = [
             'zf-apigility' => [
@@ -141,19 +147,19 @@ class TableGatewayAbstractFactoryTest extends TestCase
                 ],
             ],
         ];
-        if ($adapterServiceName !== 'Zend\Db\Adapter\Adapter') {
+        if ($adapterServiceName !== DbAdapter::class) {
             $config['zf-apigility']['db-connected']['Foo']['adapter_name'] = $adapterServiceName;
         }
         $this->services->set('config', $config);
 
-        $gateway = $this->factory->createServiceWithName($this->services, 'footable', 'Foo\Table');
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $gateway);
+        $gateway = $this->factory->__invoke($this->services, 'Foo\Table');
+        $this->assertInstanceOf(TableGateway::class, $gateway);
         $this->assertEquals('foo', $gateway->getTable());
         $this->assertSame($adapter, $gateway->getAdapter());
         $resultSet = $gateway->getResultSetPrototype();
-        $this->assertInstanceOf('Zend\Db\ResultSet\HydratingResultSet', $resultSet);
-        $this->assertInstanceOf('Zend\Hydrator\ClassMethods', $resultSet->getHydrator());
-        $this->assertAttributeInstanceOf('ZFTest\Apigility\TestAsset\Foo', 'objectPrototype', $resultSet);
+        $this->assertInstanceOf(HydratingResultSet::class, $resultSet);
+        $this->assertSame($hydrator->reveal(), $resultSet->getHydrator());
+        $this->assertAttributeInstanceOf(TestAsset\Foo::class, 'objectPrototype', $resultSet);
     }
 
     /**
@@ -163,14 +169,14 @@ class TableGatewayAbstractFactoryTest extends TestCase
     {
         $this->services->set('HydratorManager', new HydratorPluginManager());
 
-        $platform = $this->getMockBuilder('Zend\Db\Adapter\Platform\PlatformInterface')
+        $platform = $this->getMockBuilder(DbPlatformInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $platform->expects($this->any())
             ->method('getName')
             ->will($this->returnValue('sqlite'));
 
-        $adapter = $this->getMockBuilder('Zend\Db\Adapter\Adapter')
+        $adapter = $this->getMockBuilder(DbAdapter::class)
             ->disableOriginalConstructor()
             ->getMock();
         $adapter->expects($this->any())
@@ -186,23 +192,23 @@ class TableGatewayAbstractFactoryTest extends TestCase
                         'controller_service_name' => 'Foo\Controller',
                         'table_name'              => 'foo',
                         'hydrator_name'           => 'ClassMethods',
-                        'entity_class'            => 'ZFTest\Apigility\TestAsset\Bar'
+                        'entity_class'            => TestAsset\Bar::class,
                     ],
                 ],
             ],
         ];
-        if ($adapterServiceName !== 'Zend\Db\Adapter\Adapter') {
+        if ($adapterServiceName !== DbAdapter::class) {
             $config['zf-apigility']['db-connected']['Foo']['adapter_name'] = $adapterServiceName;
         }
         $this->services->set('config', $config);
 
         $gateway = $this->factory->createServiceWithName($this->services, 'footable', 'Foo\Table');
-        $this->assertInstanceOf('Zend\Db\TableGateway\TableGateway', $gateway);
+        $this->assertInstanceOf(TableGateway::class, $gateway);
         $this->assertEquals('foo', $gateway->getTable());
         $this->assertSame($adapter, $gateway->getAdapter());
         $resultSet = $gateway->getResultSetPrototype();
-        $this->assertInstanceOf('Zend\Db\ResultSet\HydratingResultSet', $resultSet);
-        $this->assertInstanceOf('Zend\Hydrator\ClassMethods', $resultSet->getHydrator());
-        $this->assertAttributeInstanceOf('ZFTest\Apigility\TestAsset\Bar', 'objectPrototype', $resultSet);
+        $this->assertInstanceOf(HydratingResultSet::class, $resultSet);
+        $this->assertInstanceOf(ClassMethods::class, $resultSet->getHydrator());
+        $this->assertAttributeInstanceOf(TestAsset\Bar::class, 'objectPrototype', $resultSet);
     }
 }
