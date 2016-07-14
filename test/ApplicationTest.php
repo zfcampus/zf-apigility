@@ -1,16 +1,19 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZFTest\Apigility;
 
 use Exception;
 use PHPUnit_Framework_TestCase as TestCase;
+use ReflectionMethod;
 use ReflectionProperty;
 use Zend\EventManager\EventManager;
+use Zend\Http\PhpEnvironment;
 use Zend\Mvc\MvcEvent;
+use Zend\ServiceManager\ServiceManager;
 use ZF\Apigility\Application;
 
 class ApplicationTest extends TestCase
@@ -19,37 +22,52 @@ class ApplicationTest extends TestCase
     {
         $events = new EventManager();
 
-        $request = $this->getMockBuilder('Zend\Http\PhpEnvironment\Request')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $response = $this->getMockBuilder('Zend\Http\PhpEnvironment\Response')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $request = $this->prophesize(PhpEnvironment\Request::class);
+        $response = $this->prophesize(PhpEnvironment\Response::class);
 
-        $services = $this->getMockBuilder('Zend\ServiceManager\ServiceManager')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $services = $this->prophesize(ServiceManager::class);
         $this->services = $services = $this->setUpServices($services, $events, $request, $response);
 
-        $app = new Application([], $services);
+        $app = $this->createApplication($services, $events, $request, $response);
         $this->app = $app = $this->setUpMvcEvent($app, $request, $response);
+    }
+
+    /**
+     * Create and return an Application instance.
+     *
+     * Checks to see which version of zend-mvc is present, and uses that to
+     * determine how to construct the instance.
+     *
+     * @return Application
+     */
+    public function createApplication($services, $events, $request, $response)
+    {
+        $r = new ReflectionMethod(Application::class, '__construct');
+        if ($r->getNumberOfRequiredParameters() === 2) {
+            // v2
+            return new Application(
+                [],
+                $services->reveal(),
+                $events,
+                $request->reveal(),
+                $response->reveal()
+            );
+        }
+
+        return new Application(
+            $services->reveal(),
+            $events,
+            $request->reveal(),
+            $response->reveal()
+        );
     }
 
     public function setUpServices($services, $events, $request, $response)
     {
-        $services->expects($this->at(0))
-            ->method('get')
-            ->with($this->equalTo('EventManager'))
-            ->willReturn($events);
-        $services->expects($this->at(1))
-            ->method('get')
-            ->with($this->equalTo('Request'))
-            ->willReturn($request);
-        $services->expects($this->at(2))
-            ->method('get')
-            ->with($this->equalTo('Response'))
-            ->willReturn($response);
-
+        $services->get('config')->willReturn([]);
+        $services->get('EventManager')->willReturn($events);
+        $services->get('Request')->willReturn($request->reveal());
+        $services->get('Response')->willReturn($response->reveal());
         return $services;
     }
 
@@ -58,8 +76,8 @@ class ApplicationTest extends TestCase
         $event = new MvcEvent();
         $event->setTarget($app);
         $event->setApplication($app)
-            ->setRequest($request)
-            ->setResponse($response);
+            ->setRequest($request->reveal())
+            ->setResponse($response->reveal());
         $r = new ReflectionProperty($app, 'event');
         $r->setAccessible(true);
         $r->setValue($app, $event);
@@ -70,25 +88,23 @@ class ApplicationTest extends TestCase
     {
         $phpunit  = $this;
         $events   = $this->app->getEventManager();
-        $response = $this->getMockBuilder('Zend\Http\PhpEnvironment\Response')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $response = $this->prophesize(PhpEnvironment\Response::class)->reveal();
 
         $events->attach('route', function ($e) {
             throw new Exception();
         });
 
-        $events->attach('dispatch.error', function ($e) use ($phpunit, $response) {
-            $phpunit->assertNotEmpty($e->getError());
+        $events->attach('dispatch.error', function ($e) use ($response) {
+            $this->assertNotEmpty($e->getError());
             return $response;
         });
 
-        $events->attach('dispatch', function ($e) use ($phpunit) {
-            $phpunit->fail('dispatch event triggered when it should not be');
+        $events->attach('dispatch', function ($e) {
+            $this->fail('dispatch event triggered when it should not be');
         });
 
-        $events->attach('render', function ($e) use ($phpunit) {
-            $phpunit->fail('render event triggered when it should not be');
+        $events->attach('render', function ($e) {
+            $this->fail('render event triggered when it should not be');
         });
 
         $finishTriggered = false;
