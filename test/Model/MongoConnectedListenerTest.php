@@ -1,11 +1,13 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZFTest\Apigility\Model;
 
+use MongoClient;
+use MongoCollection;
 use MongoDB;
 use PHPUnit_Framework_TestCase as TestCase;
 use ZF\Apigility\Model\MongoConnectedListener;
@@ -18,17 +20,18 @@ class MongoConnectedListenerTest extends TestCase
 
     public function setUp()
     {
-        $this->markTestSkipped('Mongo-connected functionality is not currently working');
-
-        if (!extension_loaded('mongo')) {
+        if (! (extension_loaded('mongodb') || extension_loaded('mongo'))
+            || ! class_exists(MongoClient::class)
+            || version_compare(MongoClient::VERSION, '1.4.1', '<')
+        ) {
             $this->markTestSkipped(
-                'The MongoDB extension is not available.'
+                'ext/mongo or ext/mongodb + alcaeus/mongo-php-adapter is not available'
             );
         }
 
-        $m  = new \MongoClient();
+        $m  = new MongoClient();
         static::$mongoDb = $m->selectDB("test_zf_apigility_mongoconnected");
-        $collection = new \MongoCollection(static::$mongoDb, 'test');
+        $collection = new MongoCollection(static::$mongoDb, 'test');
 
         $this->mongoListener = new MongoConnectedListener($collection);
     }
@@ -45,30 +48,53 @@ class MongoConnectedListenerTest extends TestCase
         $data = [ 'foo' => 'bar' ];
         $result = $this->mongoListener->create($data);
         $this->assertTrue(isset($result['_id']));
-        static::$lastId = $result['_id'];
+        return $result['_id'];
     }
 
-    public function testPatch()
+    /**
+     * @depends testCreate
+     */
+    public function testFetch($lastId)
     {
-        if (empty(static::$lastId)) {
+        if (empty($lastId)) {
             $this->markTestIncomplete(
-                'This test cannot be executed.'
+                'This test cannot be executed; no identifier returned by testCreate().'
+            );
+        }
+
+        $result = $this->mongoListener->fetch($lastId);
+        $this->assertTrue(! empty($result));
+        $this->assertEquals($lastId, $result['_id']);
+        return $lastId;
+    }
+
+    /**
+     * @depends testFetch
+     */
+    public function testPatch($lastId)
+    {
+        if (empty($lastId)) {
+            $this->markTestIncomplete(
+                'This test cannot be executed; no identifier returned by testFetch(), or testFetch() not executed.'
             );
         }
         $data = [ 'foo' => 'baz' ];
-        $this->assertTrue($this->mongoListener->patch(static::$lastId, $data));
+        $this->assertTrue($this->mongoListener->patch($lastId, $data));
+        return $lastId;
     }
 
-    public function testFetch()
+    /**
+     * @depends testPatch
+     */
+    public function testDelete($lastId)
     {
-        if (empty(static::$lastId)) {
+        if (empty($lastId)) {
             $this->markTestIncomplete(
-                'This test cannot be executed.'
+                'This test cannot be executed; no identifier returned by testPatch(), or testPatch() not executed.'
             );
         }
-        $result = $this->mongoListener->fetch(static::$lastId);
-        $this->assertTrue(!empty($result));
-        $this->assertEquals(static::$lastId, $result['_id']);
+        $result = $this->mongoListener->delete($lastId);
+        $this->assertTrue($result);
     }
 
     public function testFetchAll()
@@ -85,16 +111,5 @@ class MongoConnectedListenerTest extends TestCase
         $this->assertTrue(!empty($result));
         $this->assertTrue(is_array($result));
         $this->assertEquals($num, count($result));
-    }
-
-    public function testDelete()
-    {
-        if (empty(static::$lastId)) {
-            $this->markTestIncomplete(
-                'This test cannot be executed.'
-            );
-        }
-        $result = $this->mongoListener->delete(self::$lastId);
-        $this->assertTrue($result);
     }
 }
