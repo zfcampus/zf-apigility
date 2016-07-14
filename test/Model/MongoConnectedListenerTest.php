@@ -16,8 +16,6 @@ class MongoConnectedListenerTest extends TestCase
 {
     protected static $mongoDb;
 
-    protected static $lastId;
-
     public function setUp()
     {
         if (! (extension_loaded('mongodb') || extension_loaded('mongo'))
