@@ -1,7 +1,7 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZFTest\Apigility\TestAsset;
@@ -15,14 +15,7 @@ class ServiceManager implements ServiceLocatorInterface
 
     public function get($name)
     {
-        if (!$this->has($name)) {
-            throw new RuntimeException(sprintf(
-                'No service by name of "%s" found',
-                $name
-            ));
-        }
-
-        return $this->services[$name];
+        return $this->build($name);
     }
 
     public function has($name)
@@ -33,5 +26,17 @@ class ServiceManager implements ServiceLocatorInterface
     public function set($name, $service)
     {
         $this->services[$name] = $service;
+    }
+
+    public function build($name, array $options = null)
+    {
+        if (!$this->has($name)) {
+            throw new RuntimeException(sprintf(
+                'No service by name of "%s" found',
+                $name
+            ));
+        }
+
+        return $this->services[$name];
     }
 }
