@@ -1,42 +1,48 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
-return array(
-    'asset_manager' => array(
-        'resolver_configs' => array(
-            'paths' => array(
+namespace ZF\Apigility;
+
+use Zend\Db\Adapter\AdapterAbstractServiceFactory as DbAdapterAbstractServiceFactory;
+use Zend\ServiceManager\Factory\InvokableFactory;
+
+return [
+    'asset_manager' => [
+        'resolver_configs' => [
+            'paths' => [
                 __DIR__ . '/../asset',
-            ),
-        ),
-    ),
-    'router' => array(
-        'routes' => array(
-            'zf-apigility' => array(
-                'type'  => 'Zend\Mvc\Router\Http\Literal',
-                'options' => array(
+            ],
+        ],
+    ],
+    'router' => [
+        'routes' => [
+            'zf-apigility' => [
+                'type'  => 'literal',
+                'options' => [
                     'route' => '/apigility',
-                ),
+                ],
                 'may_terminate' => false,
-            ),
-        ),
-    ),
-    'service_manager' => array(
-        'invokables' => array(
-            'ZF\Apigility\MvcAuth\UnauthenticatedListener' => 'ZF\Apigility\MvcAuth\UnauthenticatedListener',
-            'ZF\Apigility\MvcAuth\UnauthorizedListener' => 'ZF\Apigility\MvcAuth\UnauthorizedListener',
-        ),
-        'abstract_factories' => array(
-            'Zend\Db\Adapter\AdapterAbstractServiceFactory', // so that db-connected works "out-of-the-box"
-            'ZF\Apigility\DbConnectedResourceAbstractFactory',
-            'ZF\Apigility\TableGatewayAbstractFactory',
-        ),
-    ),
-    'zf-apigility' => array(
-        'db-connected' => array(
-        /**
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            MvcAuth\UnauthenticatedListener::class => InvokableFactory::class,
+            MvcAuth\UnauthorizedListener::class => InvokableFactory::class,
+        ],
+        'abstract_factories' => [
+            DbAdapterAbstractServiceFactory::class, // so that db-connected works "out-of-the-box"
+            DbConnectedResourceAbstractFactory::class,
+            TableGatewayAbstractFactory::class,
+        ],
+    ],
+    'zf-apigility' => [
+        'db-connected' => [
+        // @codingStandardsIgnoreStart
+        /*
          * This is sample configuration for a DB-connected service.
          * Each such service requires an adapter, a hydrator, an entity, and a
          * collection.
@@ -54,6 +60,7 @@ return array(
                 'collection_class' => 'Name of collection class which iterates entities; should be a Paginator extension',
             ),
          */
-        ),
-    ),
-);
+        // @codingStandardsIgnoreEnd
+        ],
+    ],
+];

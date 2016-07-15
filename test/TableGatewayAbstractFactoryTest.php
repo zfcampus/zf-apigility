@@ -18,10 +18,6 @@ use Zend\Hydrator\ClassMethods;
 use Zend\Hydrator\HydratorPluginManager;
 use ZF\Apigility\TableGatewayAbstractFactory;
 
-/**
- * @todo Rewrite this to use a prophesized ContainerInterface/ServiceLocatorInterface,
- *     and see if that will resolve the issues reported in https://github.com/zendframework/zend-servicemanager/pull/136#issuecomment-232782751
- */
 class TableGatewayAbstractFactoryTest extends TestCase
 {
     public function setUp()
