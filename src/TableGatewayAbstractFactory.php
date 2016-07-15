@@ -187,7 +187,7 @@ class TableGatewayAbstractFactory implements AbstractFactoryInterface
     protected function getHydratorFromConfig(array $config, ContainerInterface $container)
     {
         $hydratorName = isset($config['hydrator_name']) ? $config['hydrator_name'] : 'ArraySerializable';
-        $hydrators    = $services->get('HydratorManager');
+        $hydrators    = $container->get('HydratorManager');
         return $hydrators->get($hydratorName);
     }
 
