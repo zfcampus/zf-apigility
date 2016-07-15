@@ -6,11 +6,13 @@ ZF Apigility
 Introduction
 ------------
 
-Meta- Zend Framework 2 module combining features from:
+Meta-module for Zend Framework combining features from:
 
 - zf-api-problem
 - zf-content-negotiation
+- zf-content-validation
 - zf-hal
+- zf-mvc-auth
 - zf-rest
 - zf-rpc
 - zf-versioning
@@ -30,14 +32,14 @@ Installation
 Run the following `composer` command:
 
 ```console
-$ composer require "zfcampus/zf-apigility:~1.0-dev"
+$ composer require zfcampus/zf-apigility
 ```
 
 Alternately, manually add the following to your `composer.json`, in the `require` section:
 
 ```javascript
 "require": {
-    "zfcampus/zf-apigility": "~1.0-dev"
+    "zfcampus/zf-apigility": "^1.3"
 }
 ```
 
@@ -47,22 +49,29 @@ Finally, add the module name to your project's `config/application.config.php` u
 key:
 
 ```php
-return array(
+return [
     /* ... */
-    'modules' => array(
+    'modules' => [
         /* ... */
         'ZF\Apigility',
-    ),
+    ],
     /* ... */
-);
+];
 ```
+
+> ### zf-component-installer
+>
+> If you use [zf-component-installer](https://github.com/zendframework/zf-component-installer),
+> that plugin will install zf-apigility, and all modules it depends on, as a
+> module in your application configuration for you.
 
 Configuration
 =============
 
 ### User Configuration
 
-The top-level configuration key for user configuration of this module is `zf-api-problem`.
+The top-level configuration key for user configuration of this module is
+`zf-apigility`.
 
 #### db-connected
 
@@ -75,7 +84,7 @@ enumerates all of the required and optional configuration necessary to enable th
 Example:
 
 ```php
-'db-connected' => array(
+'db-connected' => [
     /**
      * This is sample configuration for a DB-connected service.
      * Each such service requires an adapter, a hydrator, an entity, and a
@@ -84,7 +93,7 @@ Example:
      * The TableGateway will be called "YourDBConnectedResource\Table" should
      * you wish to retrieve it manually later.
      */
-    'YourDBConnectedResource' => array(
+    'YourDBConnectedResource' => [
         'table_service'    => 'Optional; if present, this service will be used as the table gateway',
         'resource_class'   => 'Optional; if present, this class will be used as the db-connected resource',
         'table_name'       => 'Name of DB table to use',
@@ -93,8 +102,8 @@ Example:
         'hydrator_name'    => 'Service Name for Hydrator to use',
         'entity_class'     => 'Name of entity class to which to hydrate',
         'collection_class' => 'Name of collection class which iterates entities; should be a Paginator extension',
-    ),
-),
+    ],
+],
 ```
 
 ### System Configuration
@@ -103,35 +112,42 @@ The following configuration is required to ensure the proper functioning of this
 Framework 2 applications, and is provided by the module:
 
 ```php
-'asset_manager' => array(
-    'resolver_configs' => array(
-        'paths' => array(
-            __DIR__ . '/../asset',
-        ),
-    ),
-),
-'router' => array(
-    'routes' => array(
-        'zf-apigility' => array(
-            'type'  => 'Zend\Mvc\Router\Http\Literal',
-            'options' => array(
-                'route' => '/apigility',
-            ),
-            'may_terminate' => false,
-        ),
-    ),
-),
-'service_manager' => array(
-    'invokables' => array(
-        'ZF\Apigility\MvcAuth\UnauthenticatedListener' => 'ZF\Apigility\MvcAuth\UnauthenticatedListener',
-        'ZF\Apigility\MvcAuth\UnauthorizedListener' => 'ZF\Apigility\MvcAuth\UnauthorizedListener',
-    ),
-    'abstract_factories' => array(
-        'Zend\Db\Adapter\AdapterAbstractServiceFactory', // so that db-connected works "out-of-the-box"
-        'ZF\Apigility\DbConnectedResourceAbstractFactory',
-        'ZF\Apigility\TableGatewayAbstractFactory',
-    ),
-),
+namespace ZF\Apigility;
+
+use Zend\Db\Adapter\AdapterAbstractServiceFactory as DbAdapterAbstractServiceFactory;
+use Zend\ServiceManager\Factory\InvokableFactory;
+
+return [
+    'asset_manager' => [
+        'resolver_configs' => [
+            'paths' => [
+                __DIR__ . '/../asset',
+            ],
+        ],
+    ],
+    'router' => [
+        'routes' => [
+            'zf-apigility' => [
+                'type'  => 'literal',
+                'options' => [
+                    'route' => '/apigility',
+                ],
+                'may_terminate' => false,
+            ],
+        ],
+    ],
+    'service_manager' => [
+        'factories' => [
+            MvcAuth\UnauthenticatedListener::class => InvokableFactory::class,
+            MvcAuth\UnauthorizedListener::class => InvokableFactory::class,
+        ],
+        'abstract_factories' => [
+            DbAdapterAbstractServiceFactory::class, // so that db-connected works "out-of-the-box"
+            DbConnectedResourceAbstractFactory::class,
+            TableGatewayAbstractFactory::class,
+        ],
+    ],
+];
 ```
 
 ZF2 Events
