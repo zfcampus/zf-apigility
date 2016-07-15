@@ -71,7 +71,7 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
     {
         $config        = $container->get('config');
         $config        = $config['zf-apigility']['db-connected'][$requestedName];
-        $table         = $this->getTableGatewayFromConfig($config, $requestedName, $services);
+        $table         = $this->getTableGatewayFromConfig($config, $requestedName, $container);
         $identifier    = $this->getIdentifierFromConfig($config);
         $collection    = $this->getCollectionFromConfig($config, $requestedName);
         $resourceClass = $this->getResourceClassFromConfig($config, $requestedName);
