@@ -5,20 +5,44 @@ language: php
 cache:
   directories:
     - $HOME/.composer/cache
+    - vendor
+
+env:
+  global:
+    - COMPOSER_ARGS="--no-interaction --ignore-platform-reqs"
 
 matrix:
   fast_finish: true
   include:
-    - php: 5.5
-      env:
-        - EXECUTE_CS_CHECK=true
     - php: 5.6
       env:
-        - EXECUTE_COVERAGE=true
+        - DEPS=lowest
+    - php: 5.6
+      env:
+        - DEPS=locked
+    - php: 5.6
+      env:
+        - DEPS=latest
     - php: 7
+      env:
+        - DEPS=lowest
+    - php: 7
+      env:
+        - DEPS=locked
+        - CS_CHECK=true
+    - php: 7
+      env:
+        - DEPS=latest
     - php: hhvm 
+      env:
+        - DEPS=lowest
+    - php: hhvm 
+      env:
+        - DEPS=locked
+    - php: hhvm 
+      env:
+        - DEPS=latest
   allow_failures:
-    - php: 7
     - php: hhvm
   
 notifications:
@@ -26,12 +50,15 @@ notifications:
   email: false
 
 before_install:
-  - if [[ $EXECUTE_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
-  - composer self-update
+  - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
+  - travis_retry composer self-update
 
 install:
-  - travis_retry composer install --no-interaction --ignore-platform-reqs --prefer-source
+  - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
+  - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
+  - travis_retry composer install $COMPOSER_ARGS
+  - composer show
 
 script:
-  - ./vendor/bin/phpunit
-  - if [[ $EXECUTE_CS_CHECK == 'true' ]]; then ./vendor/bin/phpcs ; fi
+  - composer test
+  - if [[ $CS_CHECK == 'true' ]]; then composer cs-check ; fi
