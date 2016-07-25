@@ -109,7 +109,7 @@ Example:
 ### System Configuration
 
 The following configuration is required to ensure the proper functioning of this module in Zend
-Framework 2 applications, and is provided by the module:
+Framework applications, and is provided by the module:
 
 ```php
 namespace ZF\Apigility;
@@ -150,8 +150,8 @@ return [
 ];
 ```
 
-ZF2 Events
-==========
+ZF Events
+=========
 
 ### Listeners
 
@@ -176,8 +176,8 @@ conditionally attach `ZF\ApiProblem\RenderErrorListener` when an `MvcEvent`'s re
 `HalJsonModel` or `JsonModel`, ensuring `zf-api-problem` can render a response in situations where
 a rendering error occurs.
 
-ZF2 Services
-============
+ZF Services
+===========
 
 ### Factories
 
