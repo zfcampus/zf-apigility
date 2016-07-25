@@ -49,7 +49,7 @@ return [
          *
          * The TableGateway will be called "YourDBConnectedResource\Table" should
          * you wish to retrieve it manually later.
-            'YourDBConnectedResource' => array(
+            'YourDBConnectedResource' => [
                 'table_service'    => 'Optional; if present, this service will be used as the table gateway',
                 'resource_class'   => 'Optional; if present, this class will be used as the db-connected resource',
                 'table_name'       => 'Name of DB table to use',
@@ -58,7 +58,7 @@ return [
                 'hydrator_name'    => 'Service Name for Hydrator to use',
                 'entity_class'     => 'Name of entity class to which to hydrate',
                 'collection_class' => 'Name of collection class which iterates entities; should be a Paginator extension',
-            ),
+            ],
          */
         // @codingStandardsIgnoreEnd
         ],
