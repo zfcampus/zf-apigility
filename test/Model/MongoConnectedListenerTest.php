@@ -98,7 +98,7 @@ class MongoConnectedListenerTest extends TestCase
     public function testFetchAll()
     {
         $num = 3;
-        for ($i=0; $i < $num; $i++) {
+        for ($i = 0; $i < $num; $i++) {
             $this->mongoListener->create([
                 'foo'   => 'bau',
                 'count' => $i
@@ -106,7 +106,7 @@ class MongoConnectedListenerTest extends TestCase
         }
         $data = [ 'foo' => 'bau' ];
         $result = $this->mongoListener->fetchAll($data);
-        $this->assertTrue(!empty($result));
+        $this->assertTrue(! empty($result));
         $this->assertTrue(is_array($result));
         $this->assertEquals($num, count($result));
     }
