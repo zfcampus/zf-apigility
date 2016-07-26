@@ -65,6 +65,26 @@ return [
 > that plugin will install zf-apigility, and all modules it depends on, as a
 > module in your application configuration for you.
 
+Assets
+------
+
+If you are using this module along with the [admin](https://github.com/zfcampus/zf-apigility-admin)
+and/or the [welcome screen](https://github.com/zfcampus/zf-apigility-welcome),
+this module contains assets that you will need to make web accessible. For that,
+you have two options:
+
+- [rwoverdijk/assetmanager](https://github.com/rwoverdijk/AssetManager) is a ZF
+  module that provides advanced capabilities around web asset management, and is
+  the original tool used by this module. At its current release (1.6.0),
+  however, it does not support v3 components from Zend Framework. An upcoming
+  1.7.0 release will likely support them.
+- [zfcampus/zf-asset-manager](https://github.com/zfcampus/zf-asset-manager) is a
+  Composer plugin that acts during installation and uninstallation of packages,
+  copying and removing asset trees as defined using the configuration from
+  rwoverdijk/assetmanager. To use this, however, you will need to install the
+  plugin *first*, and then this module. (If you have already installed this
+  module, remove it using `composer remove zfcampus/zf-apigility`.)
+
 Configuration
 =============
 
