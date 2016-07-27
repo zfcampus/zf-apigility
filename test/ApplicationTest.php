@@ -25,11 +25,23 @@ class ApplicationTest extends TestCase
         $request = $this->prophesize(PhpEnvironment\Request::class);
         $response = $this->prophesize(PhpEnvironment\Response::class);
 
-        $services = $this->prophesize(ServiceManager::class);
-        $this->services = $services = $this->setUpServices($services, $events, $request, $response);
+        $this->services = $this->setUpServices(
+            $this->prophesize(ServiceManager::class),
+            $events,
+            $request,
+            $response
+        );
 
-        $app = $this->createApplication($services, $events, $request, $response);
-        $this->app = $app = $this->setUpMvcEvent($app, $request, $response);
+        $this->app = $this->setUpMvcEvent(
+            $this->createApplication(
+                $this->services->reveal(),
+                $events,
+                $request->reveal(),
+                $response->reveal()
+            ),
+            $request,
+            $response
+        );
     }
 
     /**
@@ -49,21 +61,11 @@ class ApplicationTest extends TestCase
         $r = new ReflectionMethod(Application::class, '__construct');
         if ($r->getNumberOfRequiredParameters() === 2) {
             // v2
-            return new Application(
-                [],
-                $services->reveal(),
-                $events,
-                $request->reveal(),
-                $response->reveal()
-            );
+            return new Application([], $services, $events, $request, $response);
         }
 
-        return new Application(
-            $services->reveal(),
-            $events,
-            $request->reveal(),
-            $response->reveal()
-        );
+        // v3
+        return new Application($services, $events, $request, $response);
     }
 
     public function setUpServices($services, $events, $request, $response)
