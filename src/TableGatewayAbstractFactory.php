@@ -91,10 +91,10 @@ class TableGatewayAbstractFactory implements AbstractFactoryInterface
             $restConfig = $config['zf-rest'][$dbConnectedConfig['controller_service_name']];
         }
 
-        $table      = $dbConnectedConfig['table_name'];
-        $adapter    = $this->getAdapterFromConfig($dbConnectedConfig, $container);
-        $hydrator   = $this->getHydratorFromConfig($dbConnectedConfig, $container);
-        $entity     = $this->getEntityFromConfig($restConfig, $requestedName);
+        $table    = $dbConnectedConfig['table_name'];
+        $adapter  = $this->getAdapterFromConfig($dbConnectedConfig, $container);
+        $hydrator = $this->getHydratorFromConfig($dbConnectedConfig, $container);
+        $entity   = $this->getEntityFromConfig($restConfig, $requestedName);
 
         $resultSetPrototype = new HydratingResultSet($hydrator, new $entity());
         return new TableGateway($table, $adapter, null, $resultSetPrototype);
