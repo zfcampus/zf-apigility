@@ -38,6 +38,10 @@ class ApplicationTest extends TestCase
      * Checks to see which version of zend-mvc is present, and uses that to
      * determine how to construct the instance.
      *
+     * @param ServiceManager $services
+     * @param EventManager $events
+     * @param PhpEnvironment\Request $request
+     * @param PhpEnvironment\Response $response
      * @return Application
      */
     public function createApplication($services, $events, $request, $response)
