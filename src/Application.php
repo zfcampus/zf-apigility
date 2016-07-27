@@ -8,6 +8,7 @@ namespace ZF\Apigility;
 
 use Exception;
 use Throwable;
+use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Application as MvcApplication;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ResponseInterface;
@@ -57,39 +58,9 @@ class Application extends MvcApplication
         try {
             $result = $events->triggerEventUntil($shortCircuit, $event);
         } catch (Throwable $e) {
-            $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
-            $event->setError(self::ERROR_EXCEPTION);
-            $event->setParam('exception', $e);
-            $result = $events->triggerEvent($event);
-
-            $response = $result->last();
-            if ($response instanceof ResponseInterface) {
-                $event->setName(MvcEvent::EVENT_FINISH);
-                $event->setTarget($this);
-                $event->setResponse($response);
-                $this->response = $response;
-                $events->triggerEvent($event);
-                return $this;
-            }
-
-            return $this->completeRequest($event);
+            return $this->handleException($e, $event, $events);
         } catch (Exception $e) {
-            $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
-            $event->setError(self::ERROR_EXCEPTION);
-            $event->setParam('exception', $e);
-            $result = $events->triggerEvent($event);
-
-            $response = $result->last();
-            if ($response instanceof ResponseInterface) {
-                $event->setName(MvcEvent::EVENT_FINISH);
-                $event->setTarget($this);
-                $event->setResponse($response);
-                $this->response = $response;
-                $events->triggerEvent($event);
-                return $this;
-            }
-
-            return $this->completeRequest($event);
+            return $this->handleException($e, $event, $events);
         }
 
         if ($result->stopped()) {
@@ -128,5 +99,33 @@ class Application extends MvcApplication
         $this->completeRequest($event);
 
         return $this;
+    }
+
+    /**
+     * Handle an exception/throwable.
+     *
+     * @param Throwable|Exception $exception
+     * @param MvcEvent $event
+     * @param EventManagerInterface $events
+     * @return self
+     */
+    private function handleException($exception, MvcEvent $event, EventManagerInterface $events)
+    {
+        $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+        $event->setError(self::ERROR_EXCEPTION);
+        $event->setParam('exception', $e);
+        $result = $events->triggerEvent($event);
+
+        $response = $result->last();
+        if ($response instanceof ResponseInterface) {
+            $event->setName(MvcEvent::EVENT_FINISH);
+            $event->setTarget($this);
+            $event->setResponse($response);
+            $this->response = $response;
+            $events->triggerEvent($event);
+            return $this;
+        }
+
+        return $this->completeRequest($event);
     }
 }
