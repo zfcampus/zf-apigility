@@ -56,7 +56,7 @@ class MongoConnectedListener extends AbstractResourceListener
      *
      * @param  string $id
      * @param  array $data
-     * @return boolean
+     * @return bool
      */
     public function patch($id, $data)
     {
@@ -68,7 +68,7 @@ class MongoConnectedListener extends AbstractResourceListener
         if (isset($result['ok']) && $result['ok']) {
             return true;
         }
-        return ($result === true);
+        return $result === true;
     }
 
     /**
@@ -112,7 +112,7 @@ class MongoConnectedListener extends AbstractResourceListener
      * Delete a document in a collection
      *
      * @param  string $id
-     * @return boolean
+     * @return bool
      */
     public function delete($id)
     {
@@ -122,6 +122,6 @@ class MongoConnectedListener extends AbstractResourceListener
         if (isset($result['ok']) && $result['ok']) {
             return true;
         }
-        return ($result === true);
+        return $result === true;
     }
 }
