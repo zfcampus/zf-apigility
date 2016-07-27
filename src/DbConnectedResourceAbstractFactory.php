@@ -7,6 +7,7 @@
 namespace ZF\Apigility;
 
 use Interop\Container\ContainerInterface;
+use Zend\Paginator\Paginator;
 use Zend\ServiceManager\AbstractFactoryInterface;
 use Zend\ServiceManager\Exception\ServiceNotCreatedException;
 use Zend\ServiceManager\ServiceLocatorInterface;
@@ -174,7 +175,7 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
      */
     protected function getCollectionFromConfig(array $config, $requestedName)
     {
-        $collection = isset($config['collection_class']) ? $config['collection_class'] : 'Zend\Paginator\Paginator';
+        $collection = isset($config['collection_class']) ? $config['collection_class'] : Paginator::class;
         if (! class_exists($collection)) {
             throw new ServiceNotCreatedException(sprintf(
                 'Unable to create instance for service "%s"; collection class "%s" cannot be found',
