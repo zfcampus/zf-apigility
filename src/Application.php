@@ -96,9 +96,8 @@ class Application extends MvcApplication
 
         $response = $this->response;
         $event->setResponse($response);
-        $this->completeRequest($event);
 
-        return $this;
+        return $this->completeRequest($event);
     }
 
     /**
