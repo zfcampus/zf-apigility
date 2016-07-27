@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "381b59936f345fa2a6642947826cff3b",
-    "content-hash": "004acbd9a57e3f75d596edf2cd6082bf",
+    "hash": "2607e8a6eed739a52e230751c415c698",
+    "content-hash": "46ecb36cffb11015121dc926644dd7db",
     "packages": [
         {
             "name": "bshaffer/oauth2-server-php",
@@ -1579,16 +1579,16 @@
         },
         {
             "name": "zfcampus/zf-content-negotiation",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-content-negotiation.git",
-                "reference": "2f7c52af7ef7517509eb7fe9404a54bdc9944829"
+                "reference": "8543f610b66a78e8d9821fd1425844e7fab26d43"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-content-negotiation/zipball/2f7c52af7ef7517509eb7fe9404a54bdc9944829",
-                "reference": "2f7c52af7ef7517509eb7fe9404a54bdc9944829",
+                "url": "https://api.github.com/repos/zfcampus/zf-content-negotiation/zipball/8543f610b66a78e8d9821fd1425844e7fab26d43",
+                "reference": "8543f610b66a78e8d9821fd1425844e7fab26d43",
                 "shasum": ""
             },
             "require": {
@@ -1639,7 +1639,7 @@
                 "zend",
                 "zf2"
             ],
-            "time": "2016-07-07 21:13:40"
+            "time": "2016-07-27 20:13:12"
         },
         {
             "name": "zfcampus/zf-content-validation",
@@ -1704,16 +1704,16 @@
         },
         {
             "name": "zfcampus/zf-hal",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/zfcampus/zf-hal.git",
-                "reference": "9d88ea71fc68e4643cd53d8a99e96d3b0a812b0c"
+                "reference": "e3b0838f8a584fd0c4fd328f847255e13f59dcf3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/zfcampus/zf-hal/zipball/9d88ea71fc68e4643cd53d8a99e96d3b0a812b0c",
-                "reference": "9d88ea71fc68e4643cd53d8a99e96d3b0a812b0c",
+                "url": "https://api.github.com/repos/zfcampus/zf-hal/zipball/e3b0838f8a584fd0c4fd328f847255e13f59dcf3",
+                "reference": "e3b0838f8a584fd0c4fd328f847255e13f59dcf3",
                 "shasum": ""
             },
             "require": {
@@ -1721,7 +1721,7 @@
                 "zendframework/zend-eventmanager": "^2.6.3 || ^3.0.1",
                 "zendframework/zend-filter": "^2.7.1",
                 "zendframework/zend-http": "^2.5.4",
-                "zendframework/zend-hydrator": "^2.2.1",
+                "zendframework/zend-hydrator": "^1.1 || ^2.2.1",
                 "zendframework/zend-mvc": "^2.7.9 || ^3.0.2",
                 "zendframework/zend-paginator": "^2.7",
                 "zendframework/zend-stdlib": "^2.7.7 || ^3.0.1",
@@ -1761,7 +1761,7 @@
                 "zend",
                 "zf2"
             ],
-            "time": "2016-07-07 17:51:02"
+            "time": "2016-07-27 19:48:24"
         },
         {
             "name": "zfcampus/zf-mvc-auth",
