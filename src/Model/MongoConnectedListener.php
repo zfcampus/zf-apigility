@@ -12,7 +12,6 @@ use ZF\Rest\Exception\CreationException;
 use MongoCollection;
 use MongoException;
 use MongoId;
-use MongoCursor;
 
 class MongoConnectedListener extends AbstractResourceListener
 {

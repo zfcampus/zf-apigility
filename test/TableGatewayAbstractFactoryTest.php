@@ -8,7 +8,6 @@ namespace ZFTest\Apigility;
 
 use Interop\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase as TestCase;
-use stdClass;
 use Zend\Db\Adapter\Adapter as DbAdapter;
 use Zend\Db\Adapter\AdapterInterface as DbAdapterInterface;
 use Zend\Db\Adapter\Platform\PlatformInterface as DbPlatformInterface;
