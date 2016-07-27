@@ -20,7 +20,7 @@ return [
     'router' => [
         'routes' => [
             'zf-apigility' => [
-                'type'  => 'literal',
+                'type' => 'literal',
                 'options' => [
                     'route' => '/apigility',
                 ],
