@@ -90,7 +90,6 @@ class ApplicationTest extends TestCase
 
     public function testRouteListenerRaisingExceptionTriggersDispatchErrorAndSkipsDispatch()
     {
-        $phpunit  = $this;
         $events   = $this->app->getEventManager();
         $response = $this->prophesize(PhpEnvironment\Response::class)->reveal();
 
