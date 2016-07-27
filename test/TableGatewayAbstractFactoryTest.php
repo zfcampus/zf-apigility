@@ -97,10 +97,14 @@ class TableGatewayAbstractFactoryTest extends TestCase
         $this->services->has('config')->willReturn(true);
         $this->services->get('config')
             ->willReturn([
-                'zf-apigility' => ['db-connected' => ['Foo' => [
-                    'table_name'   => 'test',
-                    'adapter_name' => 'FooAdapter',
-                ]]]
+                'zf-apigility' => [
+                    'db-connected' => [
+                        'Foo' => [
+                            'table_name'   => 'test',
+                            'adapter_name' => 'FooAdapter',
+                        ],
+                    ],
+                ],
             ]);
 
         $this->services->has('FooAdapter')->willReturn(true);
@@ -111,9 +115,15 @@ class TableGatewayAbstractFactoryTest extends TestCase
     {
         $this->services->has('config')->willReturn(true);
         $this->services->get('config')
-           ->willReturn(['zf-apigility' => ['db-connected' => ['Foo' => [
-                'table_name'   => 'test',
-            ]]]]);
+            ->willReturn([
+                'zf-apigility' => [
+                    'db-connected' => [
+                        'Foo' => [
+                            'table_name' => 'test',
+                        ],
+                    ],
+                ],
+            ]);
 
         $this->services->has(DbAdapterInterface::class)->willReturn(false);
         $this->services->has(DbAdapter::class)->willReturn(true);
