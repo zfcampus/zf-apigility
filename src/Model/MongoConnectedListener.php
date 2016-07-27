@@ -43,7 +43,7 @@ class MongoConnectedListener extends AbstractResourceListener
         }
 
         try {
-            $result = $this->collection->insert($data);
+            $this->collection->insert($data);
         } catch (MongoException $e) {
             throw new CreationException('MongoDB error: ' . $e->getMessage());
         }

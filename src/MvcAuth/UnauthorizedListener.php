@@ -24,11 +24,10 @@ class UnauthorizedListener
             return;
         }
 
-        $mvcEvent = $mvcAuthEvent->getMvcEvent();
-        $mvcResponse = $mvcEvent->getResponse();
-
         $response = new ApiProblemResponse(new ApiProblem(403, 'Forbidden'));
+        $mvcEvent = $mvcAuthEvent->getMvcEvent();
         $mvcEvent->setResponse($response);
+
         return $response;
     }
 }
