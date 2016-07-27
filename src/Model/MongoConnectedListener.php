@@ -33,7 +33,7 @@ class MongoConnectedListener extends AbstractResourceListener
      * Create a new document in the MongoCollection
      *
      * @param  array|object $data
-     * @return boolean
+     * @return array
      * @throws CreationException
      */
     public function create($data)
@@ -75,7 +75,7 @@ class MongoConnectedListener extends AbstractResourceListener
      * Fetch data in a collection using the id
      *
      * @param  string $id
-     * @return array
+     * @return array|ApiProblem
      */
     public function fetch($id)
     {
@@ -94,7 +94,7 @@ class MongoConnectedListener extends AbstractResourceListener
      * Fetch all data in a collection
      *
      * @param  array $params
-     * @return MongoCursor
+     * @return array
      */
     public function fetchAll($params = [])
     {
