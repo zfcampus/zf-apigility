@@ -8,7 +8,6 @@ namespace ZFTest\Apigility;
 
 use Interop\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase as TestCase;
-use stdClass;
 use Zend\Db\TableGateway\TableGateway;
 use ZF\Apigility\DbConnectedResource;
 use ZF\Apigility\DbConnectedResourceAbstractFactory;
