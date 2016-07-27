@@ -6,6 +6,7 @@
 
 namespace ZFTest\Apigility;
 
+use ArrayObject;
 use PHPUnit_Framework_TestCase as TestCase;
 use ReflectionObject;
 use Zend\Db\ResultSet\AbstractResultSet;
@@ -18,7 +19,7 @@ class DbConnectedResourceTest extends TestCase
     public function setUp()
     {
         $this->table    = $this->prophesize(TableGateway::class);
-        $this->resource = new DbConnectedResource($this->table->reveal(), 'id', 'ArrayObject');
+        $this->resource = new DbConnectedResource($this->table->reveal(), 'id', ArrayObject::class);
     }
 
     protected function setInputFilter($resource, $inputFilter)
