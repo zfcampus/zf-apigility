@@ -8,7 +8,7 @@ namespace ZF\Apigility;
 
 use Zend\Mvc\MvcEvent;
 use Zend\View\Model\JsonModel;
-use ZF\ApiProblem\RenderErrorListener;
+use ZF\ApiProblem\Listener\RenderErrorListener;
 use ZF\Hal\View\HalJsonModel;
 use ZF\MvcAuth\MvcAuthEvent;
 
