@@ -202,7 +202,7 @@ class DbConnectedResourceAbstractFactory implements AbstractFactoryInterface
         $defaultClass  = DbConnectedResource::class;
         $resourceClass = isset($config['resource_class']) ? $config['resource_class'] : $defaultClass;
         if ($resourceClass !== $defaultClass
-            && ! (class_exists($resourceClass) || is_subclass_of($resourceClass, $defaultClass))
+            && (! class_exists($resourceClass) || ! is_subclass_of($resourceClass, $defaultClass))
         ) {
             throw new ServiceNotCreatedException(sprintf(
                 'Unable to create instance for service "%s"; resource class "%s" cannot be found or does not extend %s',
