@@ -111,8 +111,8 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
         ]];
         $this->services->has('config')->willReturn(true);
         $this->services->get('config')->willReturn($config);
-
         $this->services->has($tableServiceName)->willReturn(true);
+
         $this->assertTrue($this->factory->canCreate($this->services->reveal(), 'Foo'));
     }
 
