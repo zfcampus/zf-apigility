@@ -113,7 +113,7 @@ class Application extends MvcApplication
     {
         $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
         $event->setError(self::ERROR_EXCEPTION);
-        $event->setParam('exception', $e);
+        $event->setParam('exception', $exception);
         $result = $events->triggerEvent($event);
 
         $response = $result->last();
