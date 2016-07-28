@@ -1,12 +1,14 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZF\Apigility;
 
 use Exception;
+use Throwable;
+use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Application as MvcApplication;
 use Zend\Mvc\MvcEvent;
 use Zend\Stdlib\ResponseInterface;
@@ -52,31 +54,22 @@ class Application extends MvcApplication
         };
 
         // Trigger route event
+        $event->setName(MvcEvent::EVENT_ROUTE);
         try {
-            $result = $events->trigger(MvcEvent::EVENT_ROUTE, $event, $shortCircuit);
+            $result = $events->triggerEventUntil($shortCircuit, $event);
+        } catch (Throwable $e) {
+            return $this->handleException($e, $event, $events);
         } catch (Exception $e) {
-            $event->setError(self::ERROR_EXCEPTION)
-                ->setParam('exception', $e);
-            $result = $events->trigger(MvcEvent::EVENT_DISPATCH_ERROR, $event);
-
-            $response = $result->last();
-            if ($response instanceof ResponseInterface) {
-                $event->setTarget($this);
-                $event->setResponse($response);
-                $this->response = $response;
-                $events->trigger(MvcEvent::EVENT_FINISH, $event);
-                return $this;
-            }
-
-            return $this->completeRequest($event);
+            return $this->handleException($e, $event, $events);
         }
 
         if ($result->stopped()) {
             $response = $result->last();
             if ($response instanceof ResponseInterface) {
+                $event->setName(MvcEvent::EVENT_FINISH);
                 $event->setTarget($this);
                 $event->setResponse($response);
-                $events->trigger(MvcEvent::EVENT_FINISH, $event);
+                $events->triggerEvent($event);
                 $this->response = $response;
                 return $this;
             }
@@ -87,22 +80,51 @@ class Application extends MvcApplication
         }
 
         // Trigger dispatch event
-        $result = $events->trigger(MvcEvent::EVENT_DISPATCH, $event, $shortCircuit);
+        $event->setName(MvcEvent::EVENT_DISPATCH);
+        $result = $events->triggerEventUntil($shortCircuit, $event);
 
         // Complete response
         $response = $result->last();
         if ($response instanceof ResponseInterface) {
+            $event->setName(MvcEvent::EVENT_FINISH);
             $event->setTarget($this);
             $event->setResponse($response);
-            $events->trigger(MvcEvent::EVENT_FINISH, $event);
+            $events->triggerEvent($event);
             $this->response = $response;
             return $this;
         }
 
         $response = $this->response;
         $event->setResponse($response);
-        $this->completeRequest($event);
 
-        return $this;
+        return $this->completeRequest($event);
+    }
+
+    /**
+     * Handle an exception/throwable.
+     *
+     * @param Throwable|Exception $exception
+     * @param MvcEvent $event
+     * @param EventManagerInterface $events
+     * @return self
+     */
+    private function handleException($exception, MvcEvent $event, EventManagerInterface $events)
+    {
+        $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
+        $event->setError(self::ERROR_EXCEPTION);
+        $event->setParam('exception', $exception);
+        $result = $events->triggerEvent($event);
+
+        $response = $result->last();
+        if ($response instanceof ResponseInterface) {
+            $event->setName(MvcEvent::EVENT_FINISH);
+            $event->setTarget($this);
+            $event->setResponse($response);
+            $this->response = $response;
+            $events->triggerEvent($event);
+            return $this;
+        }
+
+        return $this->completeRequest($event);
     }
 }

@@ -1,24 +1,25 @@
 <?php
 /**
  * @license   http://opensource.org/licenses/BSD-3-Clause BSD-3-Clause
- * @copyright Copyright (c) 2014 Zend Technologies USA Inc. (http://www.zend.com)
+ * @copyright Copyright (c) 2014-2016 Zend Technologies USA Inc. (http://www.zend.com)
  */
 
 namespace ZFTest\Apigility;
 
+use ArrayObject;
 use PHPUnit_Framework_TestCase as TestCase;
 use ReflectionObject;
+use Zend\Db\ResultSet\AbstractResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\InputFilter\InputFilter;
 use ZF\Apigility\DbConnectedResource;
 
 class DbConnectedResourceTest extends TestCase
 {
     public function setUp()
     {
-        $this->table = $this->getMockBuilder('Zend\Db\TableGateway\TableGateway')
-            ->disableOriginalConstructor()
-            ->getMock();
-
-        $this->resource = new DbConnectedResource($this->table, 'id', 'ArrayObject');
+        $this->table    = $this->prophesize(TableGateway::class);
+        $this->resource = new DbConnectedResource($this->table->reveal(), 'id', ArrayObject::class);
     }
 
     protected function setInputFilter($resource, $inputFilter)
@@ -36,35 +37,18 @@ class DbConnectedResourceTest extends TestCase
             'baz' => 'QUZ',
         ];
 
-        $filter = $this->getMock('Zend\InputFilter\InputFilter');
-        $filter->expects($this->once())
-            ->method('getValues')
-            ->will($this->returnValue($filtered));
+        $filter = $this->prophesize(InputFilter::class);
+        $filter->getValues()->willReturn($filtered);
+        $this->setInputFilter($this->resource, $filter->reveal());
 
-        $this->setInputFilter($this->resource, $filter);
+        $this->table->insert($filtered)->shouldBeCalled();
+        $this->table->getLastInsertValue()->willReturn('foo');
 
-        $this->table->expects($this->once())
-            ->method('insert')
-            ->with($this->equalTo($filtered));
+        $resultSet = $this->prophesize(AbstractResultSet::class);
+        $resultSet->count()->willReturn(1);
+        $resultSet->current()->willReturn($filtered);
 
-        $this->table->expects($this->once())
-            ->method('getLastInsertValue')
-            ->will($this->returnValue('foo'));
-
-        $resultSet = $this->getMock('Zend\Db\ResultSet\AbstractResultSet');
-
-        $this->table->expects($this->once())
-            ->method('select')
-            ->with($this->equalTo(['id' => 'foo']))
-            ->will($this->returnValue($resultSet));
-
-        $resultSet->expects($this->once())
-            ->method('count')
-            ->will($this->returnValue(1));
-
-        $resultSet->expects($this->once())
-            ->method('current')
-            ->will($this->returnValue($filtered));
+        $this->table->select(['id' => 'foo'])->willReturn($resultSet->reveal());
 
         $this->assertEquals($filtered, $this->resource->create(['foo' => 'bar']));
     }
@@ -76,34 +60,17 @@ class DbConnectedResourceTest extends TestCase
             'baz' => 'QUZ',
         ];
 
-        $filter = $this->getMock('Zend\InputFilter\InputFilter');
-        $filter->expects($this->once())
-            ->method('getValues')
-            ->will($this->returnValue($filtered));
+        $filter = $this->prophesize(InputFilter::class);
+        $filter->getValues()->willReturn($filtered);
+        $this->setInputFilter($this->resource, $filter->reveal());
 
-        $this->setInputFilter($this->resource, $filter);
+        $this->table->update($filtered, ['id' => 'foo'])->shouldBeCalled();
 
-        $this->table->expects($this->once())
-            ->method('update')
-            ->with(
-                $this->equalTo($filtered),
-                ['id' => 'foo']
-            );
+        $resultSet = $this->prophesize(AbstractResultSet::class);
+        $resultSet->count()->willReturn(1);
+        $resultSet->current()->willReturn($filtered);
 
-        $resultSet = $this->getMock('Zend\Db\ResultSet\AbstractResultSet');
-
-        $this->table->expects($this->once())
-            ->method('select')
-            ->with($this->equalTo(['id' => 'foo']))
-            ->will($this->returnValue($resultSet));
-
-        $resultSet->expects($this->once())
-            ->method('count')
-            ->will($this->returnValue(1));
-
-        $resultSet->expects($this->once())
-            ->method('current')
-            ->will($this->returnValue($filtered));
+        $this->table->select(['id' => 'foo'])->willReturn($resultSet->reveal());
 
         $this->assertEquals($filtered, $this->resource->update('foo', ['foo' => 'bar']));
     }
@@ -115,34 +82,17 @@ class DbConnectedResourceTest extends TestCase
             'baz' => 'QUZ',
         ];
 
-        $filter = $this->getMock('Zend\InputFilter\InputFilter');
-        $filter->expects($this->once())
-            ->method('getValues')
-            ->will($this->returnValue($filtered));
+        $filter = $this->prophesize(InputFilter::class);
+        $filter->getValues()->willReturn($filtered);
+        $this->setInputFilter($this->resource, $filter->reveal());
 
-        $this->setInputFilter($this->resource, $filter);
+        $this->table->update($filtered, ['id' => 'foo'])->shouldBeCalled();
 
-        $this->table->expects($this->once())
-            ->method('update')
-            ->with(
-                $this->equalTo($filtered),
-                ['id' => 'foo']
-            );
+        $resultSet = $this->prophesize(AbstractResultSet::class);
+        $resultSet->count()->willReturn(1);
+        $resultSet->current()->willReturn($filtered);
 
-        $resultSet = $this->getMock('Zend\Db\ResultSet\AbstractResultSet');
-
-        $this->table->expects($this->once())
-            ->method('select')
-            ->with($this->equalTo(['id' => 'foo']))
-            ->will($this->returnValue($resultSet));
-
-        $resultSet->expects($this->once())
-            ->method('count')
-            ->will($this->returnValue(1));
-
-        $resultSet->expects($this->once())
-            ->method('current')
-            ->will($this->returnValue($filtered));
+        $this->table->select(['id' => 'foo'])->willReturn($resultSet->reveal());
 
         $this->assertEquals($filtered, $this->resource->patch('foo', ['foo' => 'bar']));
     }
