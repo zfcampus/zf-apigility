@@ -6,49 +6,58 @@
 
 namespace ZFTest\Apigility;
 
+use Interop\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase as TestCase;
-use stdClass;
+use Zend\Db\TableGateway\TableGateway;
+use ZF\Apigility\DbConnectedResource;
 use ZF\Apigility\DbConnectedResourceAbstractFactory;
 
 class DbConnectedResourceAbstractFactoryTest extends TestCase
 {
     public function setUp()
     {
-        $this->services = new TestAsset\ServiceManager();
+        $this->services = $this->prophesize(ContainerInterface::class);
         $this->factory  = new DbConnectedResourceAbstractFactory();
     }
 
     public function testWillNotCreateServiceIfConfigServiceMissing()
     {
-        $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
+        $this->services->has('config')->willReturn(false);
+        $this->assertFalse($this->factory->canCreate($this->services->reveal(), 'Foo'));
     }
 
     public function testWillNotCreateServiceIfApigilityConfigMissing()
     {
-        $this->services->set('Config', []);
-        $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
+        $this->services->has('config')->willReturn(true);
+        $this->services->get('config')->willReturn([]);
+        $this->assertFalse($this->factory->canCreate($this->services->reveal(), 'Foo'));
     }
 
     public function testWillNotCreateServiceIfApigilityConfigIsNotAnArray()
     {
-        $this->services->set('Config', ['zf-apigility' => 'invalid']);
-        $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
+        $this->services->has('config')->willReturn(true);
+        $this->services->get('config')->willReturn(['zf-apigility' => 'invalid']);
+        $this->assertFalse($this->factory->canCreate($this->services->reveal(), 'Foo'));
     }
 
     public function testWillNotCreateServiceIfApigilityConfigDoesNotHaveDbConnectedSegment()
     {
-        $this->services->set('Config', ['zf-apigility' => ['foo' => 'bar']]);
-        $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
+        $this->services->has('config')->willReturn(true);
+        $this->services->get('config')->willReturn(['zf-apigility' => ['foo' => 'bar']]);
+        $this->assertFalse($this->factory->canCreate($this->services->reveal(), 'Foo'));
     }
 
     public function testWillNotCreateServiceIfDbConnectedSegmentDoesNotHaveRequestedName()
     {
-        $this->services->set('Config', ['zf-apigility' => [
-            'db-connected' => [
-                'bar' => 'baz',
-            ],
-        ]]);
-        $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
+        $this->services->has('config')->willReturn(true);
+        $this->services->get('config')
+           ->willReturn(['zf-apigility' => [
+                'db-connected' => [
+                    'bar' => 'baz',
+                ],
+            ]]);
+        $this->services->has('Foo\Table')->willReturn(false);
+        $this->assertFalse($this->factory->canCreate($this->services->reveal(), 'Foo'));
     }
 
     public function invalidConfig()
@@ -69,8 +78,16 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
                 'Foo' => $configForDbConnected,
             ],
         ]];
-        $this->services->set('Config', $config);
-        $this->assertFalse($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
+        $this->services->has('config')->willReturn(true);
+        $this->services->get('config')->willReturn($config);
+
+        if (isset($configForDbConnected['table_service'])) {
+            $this->services->has($configForDbConnected['table_service'])->willReturn(false);
+        } else {
+            $this->services->has('Foo\Table')->willReturn(false);
+        }
+
+        $this->assertFalse($this->factory->canCreate($this->services->reveal(), 'Foo'));
     }
 
     public function validConfig()
@@ -91,9 +108,11 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
                 'Foo' => $configForDbConnected,
             ],
         ]];
-        $this->services->set('Config', $config);
-        $this->services->set($tableServiceName, new stdClass());
-        $this->assertTrue($this->factory->canCreateServiceWithName($this->services, 'foo', 'Foo'));
+        $this->services->has('config')->willReturn(true);
+        $this->services->get('config')->willReturn($config);
+        $this->services->has($tableServiceName)->willReturn(true);
+
+        $this->assertTrue($this->factory->canCreate($this->services->reveal(), 'Foo'));
     }
 
     /**
@@ -101,19 +120,19 @@ class DbConnectedResourceAbstractFactoryTest extends TestCase
      */
     public function testFactoryReturnsResourceBasedOnConfiguration($configForDbConnected, $tableServiceName)
     {
-        $tableGateway = $this->getMockBuilder('Zend\Db\TableGateway\TableGateway')
-            ->disableOriginalConstructor()
-            ->getMock();
-        $this->services->set($tableServiceName, $tableGateway);
+        $tableGateway = $this->prophesize(TableGateway::class)->reveal();
+        $this->services->has($tableServiceName)->willReturn(true);
+        $this->services->get($tableServiceName)->willReturn($tableGateway);
 
         $config = ['zf-apigility' => [
             'db-connected' => [
                 'Foo' => $configForDbConnected,
             ],
         ]];
-        $this->services->set('Config', $config);
+        $this->services->has('config')->willReturn(true);
+        $this->services->get('config')->willReturn($config);
 
-        $resource = $this->factory->createServiceWithName($this->services, 'foo', 'Foo');
-        $this->assertInstanceOf('ZF\Apigility\DbConnectedResource', $resource);
+        $resource = $this->factory->__invoke($this->services->reveal(), 'Foo');
+        $this->assertInstanceOf(DbConnectedResource::class, $resource);
     }
 }

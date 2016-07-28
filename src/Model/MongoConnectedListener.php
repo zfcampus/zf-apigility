@@ -12,7 +12,6 @@ use ZF\Rest\Exception\CreationException;
 use MongoCollection;
 use MongoException;
 use MongoId;
-use MongoCursor;
 
 class MongoConnectedListener extends AbstractResourceListener
 {
@@ -33,7 +32,7 @@ class MongoConnectedListener extends AbstractResourceListener
      * Create a new document in the MongoCollection
      *
      * @param  array|object $data
-     * @return boolean
+     * @return array
      * @throws CreationException
      */
     public function create($data)
@@ -43,7 +42,7 @@ class MongoConnectedListener extends AbstractResourceListener
         }
 
         try {
-            $result = $this->collection->insert($data);
+            $this->collection->insert($data);
         } catch (MongoException $e) {
             throw new CreationException('MongoDB error: ' . $e->getMessage());
         }
@@ -56,7 +55,7 @@ class MongoConnectedListener extends AbstractResourceListener
      *
      * @param  string $id
      * @param  array $data
-     * @return boolean
+     * @return bool
      */
     public function patch($id, $data)
     {
@@ -68,14 +67,14 @@ class MongoConnectedListener extends AbstractResourceListener
         if (isset($result['ok']) && $result['ok']) {
             return true;
         }
-        return ($result === true);
+        return $result === true;
     }
 
     /**
      * Fetch data in a collection using the id
      *
      * @param  string $id
-     * @return array
+     * @return array|ApiProblem
      */
     public function fetch($id)
     {
@@ -94,7 +93,7 @@ class MongoConnectedListener extends AbstractResourceListener
      * Fetch all data in a collection
      *
      * @param  array $params
-     * @return MongoCursor
+     * @return array
      */
     public function fetchAll($params = [])
     {
@@ -112,7 +111,7 @@ class MongoConnectedListener extends AbstractResourceListener
      * Delete a document in a collection
      *
      * @param  string $id
-     * @return boolean
+     * @return bool
      */
     public function delete($id)
     {
@@ -122,6 +121,6 @@ class MongoConnectedListener extends AbstractResourceListener
         if (isset($result['ok']) && $result['ok']) {
             return true;
         }
-        return ($result === true);
+        return $result === true;
     }
 }
