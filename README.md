@@ -25,6 +25,9 @@ Requirements
 ------------
   
 Please see the [composer.json](composer.json) file.
+````console
+curl -s http://getcomposer.org/installer | php
+````
 
 Installation
 ------------
