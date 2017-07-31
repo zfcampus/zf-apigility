@@ -9,7 +9,7 @@ cache:
 
 env:
   global:
-    - COMPOSER_ARGS="--no-interaction --ignore-platform-reqs"
+    - COMPOSER_ARGS="--no-interaction"
 
 matrix:
   fast_finish: true
@@ -33,17 +33,26 @@ matrix:
     - php: 7
       env:
         - DEPS=latest
-    - php: hhvm 
+    - php: 7.1
       env:
         - DEPS=lowest
-    - php: hhvm 
+    - php: 7.1
       env:
         - DEPS=locked
-    - php: hhvm 
+    - php: 7.1
+      env:
+        - DEPS=latest
+    - php: nightly
+      env:
+        - DEPS=lowest
+    - php: nightly
+      env:
+        - DEPS=locked
+    - php: nightly
       env:
         - DEPS=latest
   allow_failures:
-    - php: hhvm
+    - php: nightly
   
 notifications:
   irc: "irc.freenode.org#apigility-dev"
@@ -51,12 +60,11 @@ notifications:
 
 before_install:
   - if [[ $TEST_COVERAGE != 'true' ]]; then phpenv config-rm xdebug.ini || return 0 ; fi
-  - travis_retry composer self-update
 
 install:
   - if [[ $DEPS == 'latest' ]]; then travis_retry composer update $COMPOSER_ARGS ; fi
   - if [[ $DEPS == 'lowest' ]]; then travis_retry composer update --prefer-lowest --prefer-stable $COMPOSER_ARGS ; fi
-  - travis_retry composer install $COMPOSER_ARGS
+  - if [[ $DEPS == 'locked' ]]; then travis_retry composer install $COMPOSER_ARGS ; fi
   - composer show
 
 script:
