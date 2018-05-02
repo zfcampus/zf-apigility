@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Added
 
+- [#200](https://github.com/zfcampus/zf-apigility/pull/200) adds support for PHP 7.1 and 7.2.
+
+### Changed
+
 - Nothing.
 
 ### Deprecated
@@ -14,7 +18,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#200](https://github.com/zfcampus/zf-apigility/pull/200) removes support for HHVM.
 
 ### Fixed
 

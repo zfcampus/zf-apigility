@@ -9,14 +9,14 @@ namespace ZFTest\Apigility\Model;
 use MongoClient;
 use MongoCollection;
 use MongoDB;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use ZF\Apigility\Model\MongoConnectedListener;
 
 class MongoConnectedListenerTest extends TestCase
 {
     protected static $mongoDb;
 
-    public function setUp()
+    protected function setUp()
     {
         if (! (extension_loaded('mongodb') || extension_loaded('mongo'))
             || ! class_exists(MongoClient::class)
