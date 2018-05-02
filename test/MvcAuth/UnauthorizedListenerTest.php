@@ -6,15 +6,16 @@
 
 namespace ZFTest\Apigility\MvcAuth;
 
+use PHPUnit\Framework\TestCase;
 use Zend\Http\Response;
 use Zend\Mvc\MvcEvent;
 use ZF\Apigility\MvcAuth\UnauthorizedListener;
 use ZF\MvcAuth\MvcAuthEvent;
 
-class UnauthorizedListenerTest extends \PHPUnit_Framework_TestCase
+class UnauthorizedListenerTest extends TestCase
 {
     /**
-     * @covers ZF\Apigility\MvcAuth\UnauthorizedListener::__invoke
+     * @covers \ZF\Apigility\MvcAuth\UnauthorizedListener::__invoke
      */
     public function testInvokePropagates403ResponseWhenAuthenticationHasFailed()
     {
