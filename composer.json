@@ -46,7 +46,7 @@
         "zfcampus/zf-versioning": "^1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8 || ^5.0",
+        "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.5",
         "squizlabs/php_codesniffer": "^2.6.2",
         "zendframework/zend-http": "^2.5.4"
     },

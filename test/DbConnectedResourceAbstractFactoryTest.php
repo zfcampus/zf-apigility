@@ -7,14 +7,14 @@
 namespace ZFTest\Apigility;
 
 use Interop\Container\ContainerInterface;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\TableGateway\TableGateway;
 use ZF\Apigility\DbConnectedResource;
 use ZF\Apigility\DbConnectedResourceAbstractFactory;
 
 class DbConnectedResourceAbstractFactoryTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->services = $this->prophesize(ContainerInterface::class);
         $this->factory  = new DbConnectedResourceAbstractFactory();

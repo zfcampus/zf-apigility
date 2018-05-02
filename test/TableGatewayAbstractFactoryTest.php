@@ -7,7 +7,7 @@
 namespace ZFTest\Apigility;
 
 use Interop\Container\ContainerInterface;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use Zend\Db\Adapter\Adapter as DbAdapter;
 use Zend\Db\Adapter\AdapterInterface as DbAdapterInterface;
 use Zend\Db\Adapter\Platform\PlatformInterface as DbPlatformInterface;
@@ -19,7 +19,7 @@ use ZF\Apigility\TableGatewayAbstractFactory;
 
 class TableGatewayAbstractFactoryTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->services = $this->prophesize(ContainerInterface::class);
         $this->factory  = new TableGatewayAbstractFactory();

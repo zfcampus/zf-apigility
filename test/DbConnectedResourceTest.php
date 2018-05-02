@@ -7,7 +7,7 @@
 namespace ZFTest\Apigility;
 
 use ArrayObject;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use ReflectionObject;
 use Zend\Db\ResultSet\AbstractResultSet;
 use Zend\Db\TableGateway\TableGateway;
@@ -16,7 +16,7 @@ use ZF\Apigility\DbConnectedResource;
 
 class DbConnectedResourceTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $this->table    = $this->prophesize(TableGateway::class);
         $this->resource = new DbConnectedResource($this->table->reveal(), 'id', ArrayObject::class);

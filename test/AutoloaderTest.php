@@ -6,7 +6,7 @@
 
 namespace ZFTest\Apigility;
 
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use ZF\Apigility\Autoloader;
 
 class AutoloaderTest extends TestCase
