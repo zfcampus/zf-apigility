@@ -7,7 +7,7 @@
 namespace ZFTest\Apigility;
 
 use Exception;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionProperty;
 use Zend\EventManager\EventManager;
@@ -18,7 +18,7 @@ use ZF\Apigility\Application;
 
 class ApplicationTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $events = new EventManager();
 
