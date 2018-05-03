@@ -7,9 +7,10 @@
 namespace ZFTest\Apigility;
 
 use Exception;
-use PHPUnit_Framework_TestCase as TestCase;
+use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use ReflectionProperty;
+use Zend\EventManager\EventInterface;
 use Zend\EventManager\EventManager;
 use Zend\Http\PhpEnvironment;
 use Zend\Mvc\MvcEvent;
@@ -18,7 +19,7 @@ use ZF\Apigility\Application;
 
 class ApplicationTest extends TestCase
 {
-    public function setUp()
+    protected function setUp()
     {
         $events = new EventManager();
 
@@ -120,5 +121,25 @@ class ApplicationTest extends TestCase
         $this->app->run();
         $this->assertTrue($finishTriggered);
         $this->assertSame($response, $this->app->getResponse());
+    }
+
+    public function testStopPropagationFromPrevEventShouldBeCleared()
+    {
+        $events   = $this->app->getEventManager();
+        $response = $this->prophesize(PhpEnvironment\Response::class)->reveal();
+
+        $events->attach('route', function (EventInterface $e) use ($response) {
+            $e->stopPropagation(true);
+            return $response;
+        });
+
+        $isStopPropagation = null;
+        $events->attach('finish', function (EventInterface $e) use (&$isStopPropagation) {
+            $isStopPropagation = $e->propagationIsStopped();
+        });
+
+        $this->app->run();
+
+        $this->assertFalse($isStopPropagation);
     }
 }

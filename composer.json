@@ -1,29 +1,20 @@
 {
     "name": "zfcampus/zf-apigility",
     "description": "Apigility module for Zend Framework",
-    "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
+        "zf",
+        "zendframework",
         "api",
         "apigility",
-        "framework",
-        "zf2"
+        "framework"
     ],
-    "homepage": "http://apigility.org/",
     "support": {
-        "email": "apigility-users@zend.com",
-        "irc": "irc://irc.freenode.net/apigility",
+        "issues": "https://github.com/zfcampus/zf-apigility/issues",
         "source": "https://github.com/zfcampus/zf-apigility",
-        "issues": "https://github.com/zfcampus/zf-apigility/issues"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.3-dev",
-            "dev-develop": "1.4-dev"
-        },
-        "zf": {
-            "module": "ZF\\Apigility"
-        }
+        "rss": "https://github.com/zfcampus/zf-apigility/releases.atom",
+        "chat": "https://zendframework-slack.herokuapp.com",
+        "forum": "https://discourse.zendframework.com/c/questions/apigility"
     },
     "require": {
         "php": "^5.6 || ^7.0",
@@ -46,8 +37,8 @@
         "zfcampus/zf-versioning": "^1.2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8 || ^5.0",
-        "squizlabs/php_codesniffer": "^2.6.2",
+        "phpunit/phpunit": "^5.7.27 || ^6.5.8 || ^7.1.5",
+        "zendframework/zend-coding-standard": "~1.0.0",
         "zendframework/zend-http": "^2.5.4"
     },
     "suggest": {
@@ -65,6 +56,18 @@
             "ZFTest\\Apigility\\": "test/"
         }
     },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.4.x-dev",
+            "dev-develop": "1.5.x-dev"
+        },
+        "zf": {
+            "module": "ZF\\Apigility"
+        }
+    },
     "scripts": {
         "check": [
             "@cs-check",
@@ -72,6 +75,7 @@
         ],
         "cs-check": "phpcs",
         "cs-fix": "phpcbf",
-        "test": "phpunit"
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     }
 }

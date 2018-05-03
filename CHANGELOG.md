@@ -2,9 +2,13 @@
 
 All notable changes to this project will be documented in this file, in reverse chronological order by release.
 
-## 1.3.1 - TBD
+## 1.4.0 - 2018-05-03
 
 ### Added
+
+- [#200](https://github.com/zfcampus/zf-apigility/pull/200) adds support for PHP 7.1 and 7.2.
+
+### Changed
 
 - Nothing.
 
@@ -14,11 +18,12 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Removed
 
-- Nothing.
+- [#200](https://github.com/zfcampus/zf-apigility/pull/200) removes support for HHVM.
 
 ### Fixed
 
-- Nothing.
+- [#194](https://github.com/zfcampus/zf-apigility/pull/194) fixes an issue within `Zend\Apigility\Application` whereby it was not
+  clearing the "stop propagation" flag prior to triggering new events.
 
 ## 1.3.0 - 2016-07-28
 

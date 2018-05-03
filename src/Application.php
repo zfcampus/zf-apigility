@@ -55,6 +55,7 @@ class Application extends MvcApplication
 
         // Trigger route event
         $event->setName(MvcEvent::EVENT_ROUTE);
+        $event->stopPropagation(false); // Clear before triggering
         try {
             $result = $events->triggerEventUntil($shortCircuit, $event);
         } catch (Throwable $e) {
@@ -69,6 +70,7 @@ class Application extends MvcApplication
                 $event->setName(MvcEvent::EVENT_FINISH);
                 $event->setTarget($this);
                 $event->setResponse($response);
+                $event->stopPropagation(false); // Clear before triggering
                 $events->triggerEvent($event);
                 $this->response = $response;
                 return $this;
@@ -81,6 +83,7 @@ class Application extends MvcApplication
 
         // Trigger dispatch event
         $event->setName(MvcEvent::EVENT_DISPATCH);
+        $event->stopPropagation(false); // Clear before triggering
         $result = $events->triggerEventUntil($shortCircuit, $event);
 
         // Complete response
@@ -89,6 +92,7 @@ class Application extends MvcApplication
             $event->setName(MvcEvent::EVENT_FINISH);
             $event->setTarget($this);
             $event->setResponse($response);
+            $event->stopPropagation(false); // Clear before triggering
             $events->triggerEvent($event);
             $this->response = $response;
             return $this;
@@ -113,6 +117,7 @@ class Application extends MvcApplication
         $event->setName(MvcEvent::EVENT_DISPATCH_ERROR);
         $event->setError(self::ERROR_EXCEPTION);
         $event->setParam('exception', $exception);
+        $event->stopPropagation(false); // Clear before triggering
         $result = $events->triggerEvent($event);
 
         $response = $result->last();
@@ -121,6 +126,7 @@ class Application extends MvcApplication
             $event->setTarget($this);
             $event->setResponse($response);
             $this->response = $response;
+            $event->stopPropagation(false); // Clear before triggering
             $events->triggerEvent($event);
             return $this;
         }
