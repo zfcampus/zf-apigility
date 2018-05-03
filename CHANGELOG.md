@@ -22,7 +22,8 @@ All notable changes to this project will be documented in this file, in reverse 
 
 ### Fixed
 
-- Nothing.
+- [#194](https://github.com/zfcampus/zf-apigility/pull/194) fixes an issue within `Zend\Apigility\Application` whereby it was not
+  clearing the "stop propagation" flag prior to triggering new events.
 
 ## 1.3.0 - 2016-07-28
 
